@@ -1,0 +1,26 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.app-bar {
+  color: royalblue !important;
+}
+
+.css-p7bec2-MuiTypography-root {
+  margin-right: 112px !important;
+}
+
+.main-btn {
+  margin-right: 56px !important;
+  background: royalBlue !important;
+  color: white !important;
+  padding: 9px 26px !important;
+}
+
+@media (min-width: 600px) {
+  .css-hyum1k-MuiToolbar-root {
+    min-height: 73px !important;
+  }
+}
