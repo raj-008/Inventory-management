@@ -13,14 +13,68 @@
 }
 
 .main-btn {
-  margin-right: 56px !important;
+  margin-right: 0px !important;
   background: royalBlue !important;
   color: white !important;
   padding: 9px 26px !important;
 }
 
+.nav-btn {
+  margin-right: 24px !important;
+}
+
+.app-logo {
+  text-align: right;
+  max-width: 64px !important;
+  max-height: 54px !important;
+  margin-left: 100px !important;
+  margin-right: 12px !important;
+}
+
+/*  Space for Header Nav Item  */
+
+@media (min-width: 600px) and (max-width: 806px) {
+  .app-logo {
+    margin-left: 0px !important;
+    margin-right: 12px !important;
+    max-width: 64px !important;
+    max-height: 54px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .app-logo {
+    position: absolute;
+    right: 0;
+    margin-right: 24px;
+    max-width: 52px !important;
+    max-height: 44px !important;
+  }
+}
+
 @media (min-width: 600px) {
   .css-hyum1k-MuiToolbar-root {
     min-height: 73px !important;
+  }
+
+  .main-btn {
+    margin-right: 0px !important;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 706px) {
+  .nav-btn {
+    margin-right: 6px !important;
+    margin-left: 0px !important;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 638px) {
+  .nav-btn {
+    margin-right: 0px !important;
+  }
+
+  .main-btn {
+    margin-right: 0px !important;
   }
 }

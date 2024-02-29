@@ -1,0 +1,118 @@
+.contact {
+  display: flex !important;
+}
+
+.contact-details {
+  flex: 1 !important;
+  width: 50% !important;
+  position: relative;
+}
+
+.contact-form {
+  flex: 1 !important;
+  padding: 12px !important;
+}
+
+.contact-title {
+  font-size: 24px;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.contact-title span {
+  border-bottom: 2px solid royalblue;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.form-container .contact-input {
+  margin-bottom: 18px;
+}
+
+.form-container .inquiry-submit {
+  padding: 8px 28px;
+  font-size: medium;
+}
+
+.button-wrapper {
+  text-align: center;
+}
+
+textarea {
+  font: inherit;
+  color: currentColor;
+  box-sizing: content-box;
+  width: 98%;
+  padding: 1% 1%;
+  background-color: #f2f2f2;
+  font-size: 16px;
+  border: 0px;
+  border-bottom: 1px solid;
+  border-radius: 4px 4px 0px 0px;
+}
+
+textarea:focus {
+  outline: none;
+  border-bottom: 2px solid royalblue;
+}
+
+.contact-phone {
+  width: 49% !important;
+  margin-left: 1% !important;
+}
+
+.contact-email {
+  width: 49% !important;
+}
+
+.contact-conent {
+  max-width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.contact-item {
+  font-size: 1.5rem !important;
+  display: flex;
+  align-items: center;
+  margin-bottom: 22px;
+}
+
+.contact-item svg {
+  margin-right: 8px; /* Add some space between the icon and text */
+}
+
+.contact-icon {
+  font-size: 2rem !important;
+}
+
+.contact-item:hover svg {
+  color: royalblue; /* Change color of the icon on hover */
+}
+
+.form-container {
+  margin: 18px 0px;
+}
+
+@media (max-width: 701px) {
+  .contact {
+    display: block !important;
+  }
+
+  .contact-details {
+    width: 100% !important;
+    position: static;
+  }
+
+  .contact-form {
+    width: 100% !important;
+  }
+
+  .contact-conent {
+    position: static;
+    transform: translate(0%, 0%);
+    padding: 2rem;
+  }
+}

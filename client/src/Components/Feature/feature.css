@@ -1,0 +1,55 @@
+.feature-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.feature-card {
+  width: 30%; /* Adjust width as needed */
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px;
+  text-align: center;
+}
+
+.feature-card h2 {
+  color: #333;
+}
+
+.feature-card p {
+  color: #666;
+}
+
+.feature-icon {
+  font-size: 3rem !important;
+}
+
+@media (min-width: 577px) and (max-width: 1232px) {
+  .feature-card {
+    width: 40%; /* Adjust width for screens between 577px and 1232px */
+  }
+}
+
+@media (max-width: 577px) {
+  .feature-card {
+    width: 100%; /* Adjust width for smaller screens */
+  }
+}
+
+.features {
+  margin: 12px 0px 28px 0px;
+}
+
+.features li {
+  display: flex; /* Use flexbox */
+  align-items: center; /* Align items vertically */
+  justify-content: center;
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+
+.features li svg {
+  margin-right: 5px; /* Add space between icon and text */
+}

@@ -1,10 +1,12 @@
 import React from "react";
-import Header from "./Components/Header/Header";
-
+import Home from "./Components/Home/Home";
+import { StrictMode } from "react";
 const App = () => {
   return (
     <>
-      <Header />
+      <StrictMode>
+        <Home />
+      </StrictMode>
     </>
   );
 };
