@@ -16,10 +16,10 @@
 }
 
 .about-text .about-title {
-  font-size: 24px;
+  font-size: 1.44rem;
   margin-bottom: 18px;
   font-weight: 500;
-  border-bottom: 2px solid royalblue;
+  border-bottom: 2px solid #000000;
 }
 
 .about-img-container {

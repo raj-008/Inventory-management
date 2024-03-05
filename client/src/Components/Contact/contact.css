@@ -20,7 +20,7 @@
 }
 
 .contact-title span {
-  border-bottom: 2px solid royalblue;
+  border-bottom: 2px solid #333399;
   display: inline-block;
   vertical-align: top;
 }
@@ -32,6 +32,7 @@
 .form-container .inquiry-submit {
   padding: 8px 28px;
   font-size: medium;
+  background-color: #333399;
 }
 
 .button-wrapper {
@@ -89,7 +90,7 @@ textarea:focus {
 }
 
 .contact-item:hover svg {
-  color: royalblue; /* Change color of the icon on hover */
+  color: #333399; /* Change color of the icon on hover */
 }
 
 .form-container {

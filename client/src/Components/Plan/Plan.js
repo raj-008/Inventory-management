@@ -2,6 +2,8 @@ import React from "react";
 import "./plan.css";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
+import Button from "@mui/material/Button";
+
 const Plan = () => {
   return (
     <>
@@ -50,7 +52,7 @@ const Plan = () => {
               Feature 10
             </li>
           </ul>
-          <button className="btn">Choose Plan</button>
+          <Button variant="contained" className="btn">Choose Plan</Button>
         </div>
 
         <div className="pricing-plan">
@@ -98,7 +100,7 @@ const Plan = () => {
               Feature 10
             </li>
           </ul>
-          <button className="btn">Choose Plan</button>
+          <Button variant="contained" className="btn">Choose Plan</Button>
         </div>
 
         <div className="pricing-plan">
@@ -146,7 +148,7 @@ const Plan = () => {
               Feature 10
             </li>
           </ul>
-          <button className="btn">Choose Plan</button>
+          <Button variant="contained" className="btn">Choose Plan</Button>
         </div>
 
         <div className="pricing-plan">
@@ -194,7 +196,9 @@ const Plan = () => {
               Feature 10
             </li>
           </ul>
-          <button className="btn">Choose Plan</button>
+          <Button variant="contained" className="btn">
+            Choose Plan
+          </Button>
         </div>
 
         {/* <div className="pricing-plan">

@@ -1,5 +1,6 @@
 import React from "react";
 import "./hero.css";
+import Button from "@mui/material/Button";
 
 const Hero = () => {
   return (
@@ -7,14 +8,14 @@ const Hero = () => {
       <div className="hero">
         <div className="hero-content">
           <img src="./InventoryManagement_Hero@3x.png" style={{ maxHeight: "264px", maxWidth: "351px" }} alt="Hero Image"></img>
-          <h1>Welcome to Our Website</h1>
+          <div className="h1">Welcome to Inventory</div>
           <p>
             Manage Your Inventory seemless Easily & Explore our services and products Manage Your Inventory seemless Easily & Explore our services and products Manage Your Inventory seemless Easily &
             Explore our services and products
           </p>
-          <a href="#" className="btn">
+          <Button variant="contained" className="btn">
             Get Started
-          </a>
+          </Button>
         </div>
       </div>
     </>

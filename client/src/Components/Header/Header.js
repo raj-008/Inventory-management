@@ -93,11 +93,11 @@ function Header(props) {
             </IconButton>
             <img src="https://cdn.pixabay.com/photo/2016/09/14/20/50/tooth-1670434_1280.png" className="app-logo" alt="app_logo" />
             <Typography variant="h6" component="div" sx={{ flexGrow: 1, display: { xs: "none", sm: "block" }, color: "#000000" }}>
-              MUI
+              Stockventri
             </Typography>
             <Box sx={{ display: { xs: "none", sm: "block" } }}>
               {navItems.map((item) => (
-                <Button key={item} className={item === "Sign In" ? "main-btn" : "nav-btn"} sx={{ color: "#000000" }}>
+                <Button key={item} variant={item === "Sign In" ? "contained" : ""} className={item === "Sign In" ? "main-btn" : "nav-btn"} sx={{ color: "#000000" }}>
                   {item}
                 </Button>
               ))}

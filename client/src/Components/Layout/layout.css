@@ -1,0 +1,128 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f1f1f1 !important;
+}
+
+.sidebar-logo {
+  max-height: 56px !important;
+  max-width: 100px !important;
+  margin: 0 auto !important;
+}
+
+.profile {
+  position: absolute;
+  right: 0;
+  display: flex !important; /* Use flexbox */
+  align-items: center !important; /* Vertically center items */
+  margin-right: 2%;
+}
+
+.profile-img-container {
+  margin-right: 12px; /* Add some space between image and text */
+}
+
+.profile-img {
+  height: 48px;
+  width: 48px;
+  border-radius: 50%;
+}
+
+.profile h6 {
+  margin: 0; /* Remove default margin */
+}
+
+.page-title {
+  border-bottom: 1px solid;
+}
+
+.MuiTablePagination-displayedRows {
+  display: none;
+}
+
+.MuiTablePagination-selectLabel {
+  display: none;
+}
+
+.css-12i7wg6-MuiPaper-root-MuiDrawer-paper {
+  border-right: none !important;
+}
+
+.css-1mbunh-MuiPaper-root {
+  box-shadow: none !important;
+}
+
+.active-nav {
+  background-color: #e6e6e6 !important;
+  border-right: 4px solid royalblue !important;
+}
+
+.css-1191obr-MuiPaper-root-MuiAppBar-root {
+  box-shadow: 0 7px 7px -2px rgba(0, 0, 0, 0.2) !important;
+}
+
+th,
+td {
+  text-align: center !important;
+}
+
+.sidebar-link {
+  text-decoration: none;
+  color: #000000;
+}
+
+.input-text {
+  margin: 6px 0 !important;
+}
+
+.input-file-button {
+  text-align: center !important;
+  display: block !important;
+  /* position: absolute !important; */
+  border: 1px solid #ccc !important;
+  color: #808080 !important;
+  text-transform: none !important;
+  margin: 6px 0 !important;
+  padding-top: 0.8rem !important;
+  width: 100% !important;
+}
+
+.file-input {
+  display: inline-flex !important;
+  width: 48% !important;
+}
+
+.save-btn {
+  display: block !important;
+  margin-top: 16px !important;
+  font-size: large;
+}
+
+@media (min-width: 600px) {
+  .css-1r9jet7 {
+    min-height: 73px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .profile {
+    position: static;
+    left: 100%;
+  }
+
+  .profile-img {
+    max-width: 32px;
+    max-height: 32px;
+  }
+
+  .page-title {
+    display: none;
+  }
+}
+
+@media (min-width: 767px) {
+  .input-text {
+    width: 48% !important;
+    margin-right: 2% !important;
+  }
+}

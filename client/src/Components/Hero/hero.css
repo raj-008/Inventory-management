@@ -19,7 +19,7 @@
   color: #000000;
 }
 
-.hero-content h1 {
+.hero-content .h1 {
   font-size: 3rem;
   margin-bottom: 20px;
 }
@@ -32,7 +32,7 @@
 .btn {
   display: inline-block;
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #204060 !important;
   color: white;
   text-decoration: none;
   border-radius: 5px;
@@ -52,6 +52,12 @@
 @media (max-width: 420px) {
   .hero {
     height: 130vh;
+  }
+}
+
+@media (max-width: 1167px) {
+  .hero .h1 {
+    padding: 0px 12px;
   }
 
   .hero-content p {

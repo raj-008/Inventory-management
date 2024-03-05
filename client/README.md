@@ -75,3 +75,5 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 2. MUI Icons
 3. Emotion React
 4. Emotion Styled
+5. material-table
+6. Chart Js

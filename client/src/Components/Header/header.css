@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+#home{
+  background-color: white !important;
+}
+
 .app-bar {
   color: royalblue !important;
 }
@@ -14,7 +18,7 @@
 
 .main-btn {
   margin-right: 0px !important;
-  background: royalBlue !important;
+  background: #000000 !important;
   color: white !important;
   padding: 9px 26px !important;
 }

@@ -6,7 +6,7 @@
 }
 
 .pricing-plan {
-  border: 1px solid #4775d1;
+  border: 1px solid #000000;
   border-radius: 5px;
   width: 20%;
   margin-bottom: 20px;
@@ -21,7 +21,7 @@
 .price {
   font-size: 24px;
   font-weight: bold;
-  color: #007bff;
+  color: #333399;
 }
 
 .features {
@@ -35,11 +35,12 @@
 
 .btn {
   background-color: #007bff;
-  color: #fff;
+  color: #fff !important;
   border: none;
-  padding: 10px 20px;
+  padding: 8px 19px !important;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 0.8rem !important;
 }
 
 .btn:hover {
