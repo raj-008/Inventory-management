@@ -1,0 +1,16 @@
+.register-input {
+  width: 100% !important;
+  margin-bottom: 12px !important;
+}
+
+.register-btn {
+  text-transform: none !important;
+  padding: 8px 0px !important;
+}
+
+
+@media(min-width:1200px){
+    .fname-input {
+        padding-right: 12px !important;
+      }
+}
