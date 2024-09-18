@@ -8,9 +8,25 @@
   padding: 8px 0px !important;
 }
 
+.already-account-note {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  text-align: center;
+}
 
-@media(min-width:1200px){
-    .fname-input {
-        padding-right: 12px !important;
-      }
+.forgot-link {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  text-decoration: none;
+  margin-top: 8px;
+  text-align: end;
+}
+
+.already-note-link {
+  text-decoration: none;
+  margin-left: 6px;
+}
+
+@media (min-width: 1200px) {
+  .fname-input {
+    padding-right: 12px !important;
+  }
 }

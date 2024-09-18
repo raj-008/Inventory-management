@@ -10,7 +10,6 @@ import Register from "./Components/Register/Register";
 import Login from "./Components/Login/Login";
 import ForgotPassword from "./Components/ForgotPassword/ForgotPassword";
 import ResetPassword from "./Components/ResetPassword/ResetPassword";
-import Invoice from "./Components/Invoice/Invoice";
 
 const App = () => {
   return (
@@ -26,7 +25,9 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/reset-password/:token/:userId" element={<ResetPassword />} />
+            <Route path="*" element={<Home />} />
+
             {/* <Route path="/invoice" element={<Invoice />} /> */}
           </Routes>
         </BrowserRouter>

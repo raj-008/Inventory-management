@@ -1,10 +1,10 @@
 import React from "react";
 import "./about.css";
 
-const About = () => {
+const About = ({ aboutRef }) => {
   return (
     <>
-      <div className="about">
+      <div className="about" ref={aboutRef}>
         <div className="about-text">
           <div className="about-title">About</div>
           <p className="about-content-text">

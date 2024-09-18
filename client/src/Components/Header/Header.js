@@ -8,7 +8,6 @@ import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
@@ -21,11 +20,28 @@ import Contact from "../Contact/Contact";
 import Hero from "../Hero/Hero";
 import Feature from "../Feature/Feature";
 import Plan from "../Plan/Plan";
-
+import { Link } from "react-router-dom";
+import { useRef } from "react";
 const drawerWidth = 240;
-const navItems = ["Home", "About", "Contact", "Sign In"];
+const navItems = ["Home", "About", "Contact"];
+const navPaths = ["/", "/#", "/contact"];
+
+const isLoggedIn = localStorage.getItem("_authToken");
+
+if (isLoggedIn) {
+  navItems.push("Dashboard");
+  navPaths.push("/dashboard");
+} else {
+  navItems.push("Sign In");
+  navPaths.push("/login");
+}
 
 function Header(props) {
+  const aboutRef = useRef();
+  const scrollToAbout = () => {
+    aboutRef.current.scrollIntoView({ behaviour: "smooth" });
+  };
+
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -69,11 +85,13 @@ function Header(props) {
       <Divider />
 
       <List>
-        {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: "center" }}>
-              <ListItemText primary={item} className={item === "Sign In" ? "main-btn" : ""} />
-            </ListItemButton>
+        {navItems.map((item, index) => (
+          <ListItem key={item} disablePadding style={{ justifyContent: "center" }}>
+            <Link to={navPaths[index]} key={index} style={{ textDecoration: "none", color: "black !important" }}>
+              <Button sx={{ width: "100%", textAlign: "center" }} className={item === "Sign In" || item === "Dashboard" ? "main-btn" : ""} onClick={item === "About" && scrollToAbout}>
+                <ListItemText primary={item} />
+              </Button>
+            </Link>
           </ListItem>
         ))}
       </List>
@@ -96,10 +114,17 @@ function Header(props) {
               Stockventri
             </Typography>
             <Box sx={{ display: { xs: "none", sm: "block" } }}>
-              {navItems.map((item) => (
-                <Button key={item} variant={item === "Sign In" ? "contained" : ""} className={item === "Sign In" ? "main-btn" : "nav-btn"} sx={{ color: "#000000" }}>
-                  {item}
-                </Button>
+              {navItems.map((item, index) => (
+                <Link to={navPaths[index]} key={index}>
+                  <Button
+                    key={item}
+                    variant={item === "Sign In" || item === "Dashboard" ? "contained" : ""}
+                    className={item === "Sign In" || item === "Dashboard" ? "main-btn" : "nav-btn"}
+                    sx={{ color: "#000000" }}
+                  >
+                    {item}
+                  </Button>
+                </Link>
               ))}
             </Box>
           </Toolbar>
@@ -130,7 +155,7 @@ function Header(props) {
         <Box sx={{ p: 2 }}>
           <Feature />
           <Plan />
-          <About />
+          <About aboutRef={aboutRef} />
           <Contact />
         </Box>
       </Box>

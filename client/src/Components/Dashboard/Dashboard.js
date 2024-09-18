@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Layout from "../Layout/Layout";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -10,9 +10,39 @@ import StoreRoundedIcon from "@mui/icons-material/StoreRounded";
 import GrainRoundedIcon from "@mui/icons-material/GrainRounded";
 import BusinessRoundedIcon from "@mui/icons-material/BusinessRounded";
 import Chart from "chart.js/auto";
-import { useEffect, useRef } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+  const checkLoggedIn = async () => {
+    try {
+      const token = localStorage.getItem("_authToken");
+
+      if (!token) {
+        navigate("/login");
+      }
+
+      const response = await axios.get("/validuser", {
+        headers: {
+          authorization: token,
+        },
+      });
+
+      if (response.status === 200) {
+        console.log(response);
+      } else {
+        navigate("/login");
+      }
+    } catch (error) {
+      console.error("Error checking user authentication:", error);
+    }
+  };
+
+  useEffect(() => {
+    checkLoggedIn();
+  }, []);
+
   const lineChartRef = useRef(null);
   const pieChartRef = useRef(null);
 
@@ -86,18 +116,18 @@ const Dashboard = () => {
           },
           legend: {
             position: "bottom",
-            align: "center", 
-          tooltip: {
-            callbacks: {
-              label: function (context) {
-                let value = context.dataset.data[context.dataIndex];
-                return value.toLocaleString()+'%';
+            align: "center",
+            tooltip: {
+              callbacks: {
+                label: function (context) {
+                  let value = context.dataset.data[context.dataIndex];
+                  return value.toLocaleString() + "%";
+                },
               },
             },
           },
         },
       },
-    }
     };
 
     const pieCtx = document.getElementById("pieChart");

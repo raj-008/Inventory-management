@@ -21,12 +21,12 @@ import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
 import { useEffect } from "react";
 import "./layout.css";
 import SettingsIcon from "@mui/icons-material/Settings";
-import { Link, BrowserRouter, Routes, Route } from "react-router-dom";
+import { useNavigate, Link, BrowserRouter, Routes, Route } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import GrainRoundedIcon from "@mui/icons-material/GrainRounded";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 const drawerWidth = 240;
-
 const openedMixin = (theme) => ({
   width: drawerWidth,
   transition: theme.transitions.create("width", {
@@ -90,11 +90,17 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== "open" 
 }));
 
 export default function Layout({ children }) {
+  const navigate = useNavigate();
   const location = useLocation();
 
   const isBigScreen = useMediaQuery("(min-width: 1140px)", false);
   const theme = useTheme();
   const [open, setOpen] = React.useState(isBigScreen);
+
+  const handleLogout = async () => {
+    localStorage.removeItem("_authToken");
+    window.location.href = "/";
+  };
 
   useEffect(() => {
     setOpen(isBigScreen);
@@ -175,6 +181,17 @@ export default function Layout({ children }) {
               </ListItem>
             </Link>
 
+            {/* <Link to="/category" className="sidebar-link">
+              <ListItem key="Category" disablePadding sx={{ display: "block" }} className={location.pathname === "/category" ? "active-nav" : ""}>
+                <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
+                  <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
+                    <GrainRoundedIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Product" sx={{ opacity: open ? 1 : 0 }} />
+                </ListItemButton>
+              </ListItem>
+            </Link> */}
+
             <Link to="/setting" className="sidebar-link">
               <ListItem key="Setting" disablePadding sx={{ display: "block" }} className={location.pathname === "/setting" ? "active-nav" : ""}>
                 <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
@@ -182,6 +199,17 @@ export default function Layout({ children }) {
                     <SettingsIcon />
                   </ListItemIcon>
                   <ListItemText primary="Setting" sx={{ opacity: open ? 1 : 0 }} />
+                </ListItemButton>
+              </ListItem>
+            </Link>
+
+            <Link to="" onClick={handleLogout} className="sidebar-link">
+              <ListItem key="Setting" disablePadding sx={{ display: "block" }} className={location.pathname === "/logout" ? "active-nav" : ""}>
+                <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
+                  <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
+                    <LogoutIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Logout" sx={{ opacity: open ? 1 : 0 }} />
                 </ListItemButton>
               </ListItem>
             </Link>
