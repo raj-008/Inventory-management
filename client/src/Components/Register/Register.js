@@ -2,7 +2,7 @@ import React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { Grid } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 import TextField from "@mui/material/TextField";
 import "./register.css";
 import Button from "@mui/material/Button";
@@ -16,7 +16,9 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, resolvePath } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import FormHelperText from "@mui/material/FormHelperText";
 
 const Register = () => {
   const isLoggedIn = localStorage.getItem("_authToken");
@@ -25,101 +27,10 @@ const Register = () => {
     window.location.href = "/dashboard";
   }
 
-  const [inpval, setInpval] = useState({
-    fname: "",
-    lname: "",
-    company: "",
-    phone: "",
-    email: "",
-    password: "",
-    cpassword: "",
-  });
-
-  const setVal = (e) => {
-    const { name, value } = e.target;
-
-    setInpval(() => {
-      return {
-        ...inpval,
-        [name]: value,
-      };
-    });
-  };
-
-  const addUserdata = async (e) => {
-    e.preventDefault();
-
-    const { fname, lname, company, email, phone, password, cpassword } = inpval;
-
-    if (fname === "") {
-      toast.warning("First Name is required!", {
-        position: "top-center",
-      });
-    } else if (lname === "") {
-      toast.error("Last Name is required!", {
-        position: "top-center",
-      });
-    } else if (email === "") {
-      toast.error("email is required!", {
-        position: "top-center",
-      });
-    } else if (!email.includes("@")) {
-      toast.warning("includes @ in your email!", {
-        position: "top-center",
-      });
-    } else if (password === "") {
-      toast.error("password is required!", {
-        position: "top-center",
-      });
-    } else if (password.length < 6) {
-      toast.error("password must be 6 char!", {
-        position: "top-center",
-      });
-    } else if (cpassword === "") {
-      toast.error("cpassword is required!", {
-        position: "top-center",
-      });
-    } else if (cpassword.length < 6) {
-      toast.error("confirm password must be 6 char!", {
-        position: "top-center",
-      });
-    } else if (password !== cpassword) {
-      toast.error("pass and Cpass are not matching!", {
-        position: "top-center",
-      });
-    } else {
-      try {
-        const response = await axios.post("/register", {
-          fname,
-          lname,
-          company,
-          phone,
-          email,
-          password,
-          cpassword,
-        });
-
-        const res = response.data;
-
-        if (res.success) {
-          toast.success("Registration Successfully done 😃!", {
-            position: "top-center",
-          });
-          setInpval({ ...inpval, fname: "", lname: "", company: "", phone: "", email: "", password: "", cpassword: "" });
-        }
-      } catch (error) {
-        toast.error(error.response.data.errors[0].msg, {
-          position: "top-center",
-        });
-      }
-    }
-  };
-
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
   const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
 
   const handleMouseDownConfirmPassword = (event) => {
@@ -130,92 +41,163 @@ const Register = () => {
     event.preventDefault();
   };
 
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const password = watch("password", "");
+
+  const onRegisterSubmit = async ({ fname, lname, company, phone, email, password, cpassword }) => {
+    try {
+      const response = await axios.post("/api/v1/register", { fname, lname, company, phone, email, password, cpassword });
+
+      console.log();
+
+      if (response.data.status) {
+        toast.success("Registration Successfully done 😃!", {
+          position: "top-center",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message, {
+        position: "top-center",
+      });
+    }
+  };
+
   return (
     <>
       <Grid container direction="column" alignItems="center" justifyContent="center" sx={{ minHeight: "100vh" }}>
         <Card variant="outlined" sx={{ width: { xs: "95%", sm: "80%", md: "50%", lg: "30%" } }}>
           <CardContent sx={{ width: "100%" }}>
-            <Typography
-              variant="h6"
-              style={{
-                textAlign: "center",
-                paddingBottom: "22px",
-              }}
-              color="text.secondary"
-              gutterBottom
-            >
+            <Typography variant="h6" style={{ textAlign: "center", paddingBottom: "22px" }} color="text.secondary" gutterBottom>
               Register
             </Typography>
-
-            <Grid container>
-              <Grid item={true} xs={12} lg={6}>
-                <TextField id="outlined-textarea-fname" label="First Name" name="fname" value={inpval.fname} onChange={setVal} className="register-input fname-input" />
+            <form method="post" onSubmit={handleSubmit(onRegisterSubmit)}>
+              <Grid container>
+                <Grid size={6}>
+                  <TextField
+                    label="First Name"
+                    {...register("fname", {
+                      required: { value: true, message: "First Name is required" },
+                      minLength: { value: 3, message: "First Name should be at least 3 character" },
+                    })}
+                    className="register-input fname-input"
+                    error={!!errors.fname}
+                    helperText={errors.fname ? errors.fname.message : ""}
+                  />
+                </Grid>
+                <Grid size={6}>
+                  <TextField
+                    {...register("lname", {
+                      required: { value: true, message: "Last Name is required" },
+                      minLength: { value: 3, message: "Last Name should be at least 3 character" },
+                    })}
+                    label="Last Name"
+                    className="register-input"
+                    error={!!errors.lname}
+                    helperText={errors.lname ? errors.lname.message : ""}
+                  />
+                </Grid>
+                <Grid size={12}>
+                  <TextField
+                    {...register("company", {
+                      required: { value: true, message: "Company Name is required" },
+                      minLength: { value: 3, message: "Company Name should be at least 3 character" },
+                    })}
+                    error={!!errors.company}
+                    helperText={errors.company ? errors.company.message : ""}
+                    label="Company Name"
+                    className="register-input"
+                  />
+                </Grid>
+                <Grid size={12}>
+                  <TextField
+                    {...register("email", {
+                      required: { value: true, message: "Email is required" },
+                      minLength: { value: 3, message: "Email should be at least 3 character" },
+                    })}
+                    label="Email"
+                    className="register-input"
+                    error={!!errors.email}
+                    helperText={errors.email ? errors.email.message : ""}
+                  />
+                </Grid>
+                <Grid size={12}>
+                  <TextField
+                    {...register("phone", {
+                      minLength: { value: 10, message: "Phone Number should be at least 10" },
+                    })}
+                    error={!!errors.phone}
+                    helperText={errors.phone ? errors.phone.message : ""}
+                    label="Phone"
+                    className="register-input"
+                  />
+                </Grid>
+                <Grid size={12}>
+                  <FormControl className="register-input" variant="outlined">
+                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                    <OutlinedInput
+                      type={showPassword ? "text" : "password"}
+                      {...register("password", {
+                        required: { value: true, message: "Password is required" },
+                        minLength: { value: 6, message: "Password should be at least 6 character" },
+                      })}
+                      error={!!errors.password}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} onMouseDown={handleMouseDownPassword} edge="end">
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                      label="Password"
+                    />
+                    {errors.password && <FormHelperText sx={{ color: "red" }}>{errors.password.message}</FormHelperText>}
+                  </FormControl>
+                </Grid>
+                <Grid size={12}>
+                  <FormControl className="register-input" variant="outlined">
+                    <InputLabel htmlFor="outlined-adornment-password" autoFocus>
+                      Confirm Password
+                    </InputLabel>
+                    <OutlinedInput
+                      type={showConfirmPassword ? "text" : "password"}
+                      {...register("cpassword", {
+                        required: { value: true, message: "Confirm Password is required" },
+                        minLength: { value: 6, message: "Confirm Password should be at least 6 character" },
+                        validate: (value) => value === password || "Password & Confirm password does not match",
+                      })}
+                      error={!!errors.cpassword}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton aria-label="toggle password visibility" onClick={handleClickShowConfirmPassword} onMouseDown={handleMouseDownConfirmPassword} edge="end">
+                            {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                      label="Confirm Password"
+                    />
+                    {errors.cpassword && <FormHelperText sx={{ color: "red" }}>{errors.cpassword.message}</FormHelperText>}
+                  </FormControl>
+                </Grid>
+                <Grid size={12}>
+                  <Button variant="contained" type="submit" className="register-input register-btnp">
+                    Register
+                  </Button>
+                  <div className="already-account-note ">
+                    Already have an account ?
+                    <Link to="/login" className="already-note-link">
+                      Login
+                    </Link>
+                  </div>
+                </Grid>
               </Grid>
-              <Grid item={true} xs={12} lg={6}>
-                <TextField id="outlined-textarea-lname" label="Last Name" name="lname" value={inpval.lname} onChange={setVal} className="register-input" />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField id="outlined-textarea-company" label="Company Name" name="company" value={inpval.company} onChange={setVal} className="register-input" />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField id="outlined-textarea-email" label="Email" name="email" value={inpval.email} onChange={setVal} className="register-input" />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField id="outlined-textarea-phone" label="Phone" name="phone" value={inpval.phone} onChange={setVal} className="register-input" />
-              </Grid>
-
-              <FormControl sx={{ width: "25ch" }} className="register-input" variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                <OutlinedInput
-                  id="outlined-adornment-password"
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  value={inpval.password}
-                  onChange={setVal}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} onMouseDown={handleMouseDownPassword} edge="end">
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                  label="Password"
-                />
-              </FormControl>
-
-              <FormControl sx={{ width: "100%" }} className="register-input" variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-password" autoFocus>
-                  Confirm Password
-                </InputLabel>
-                <OutlinedInput
-                  id="confirm-password"
-                  type={showConfirmPassword ? "text" : "password"}
-                  name="cpassword"
-                  value={inpval.cpassword}
-                  onChange={setVal}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton aria-label="toggle password visibility" onClick={handleClickShowConfirmPassword} onMouseDown={handleMouseDownConfirmPassword} edge="end">
-                        {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                  label="Confirm Password"
-                />
-              </FormControl>
-
-              <Grid item xs={12}>
-                <Button variant="contained" onClick={addUserdata} className="register-input register-btnp">
-                  Register
-                </Button>
-                <div className="already-account-note ">
-                  Already have an account ?
-                  <Link to="/login" className="already-note-link">
-                    Login
-                  </Link>
-                </div>
-              </Grid>
-            </Grid>
+            </form>
           </CardContent>
         </Card>
       </Grid>

@@ -1,62 +1,50 @@
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Layout from "../Layout/Layout";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { Grid } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 import ReceiptRoundedIcon from "@mui/icons-material/ReceiptRounded";
 import StoreRoundedIcon from "@mui/icons-material/StoreRounded";
 import GrainRoundedIcon from "@mui/icons-material/GrainRounded";
 import BusinessRoundedIcon from "@mui/icons-material/BusinessRounded";
 import Chart from "chart.js/auto";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import useFetchData from "../../hooks/useFetchData";
 
 const Dashboard = () => {
-  const navigate = useNavigate();
-  const checkLoggedIn = async () => {
-    try {
-      const token = localStorage.getItem("_authToken");
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [data, error, loading] = useFetchData("/api/v1/dashboard", refreshKey);
+  const dashboardData = data.data || [];
+  let totalSale = 0;
+  let monthlySaleData = [];
+  if (dashboardData.productsData) {
+    totalSale = dashboardData.productsData.totalSale;
+    monthlySaleData = dashboardData.productsData.monthlySale;
+  }
 
-      if (!token) {
-        navigate("/login");
-      }
-
-      const response = await axios.get("/validuser", {
-        headers: {
-          authorization: token,
-        },
-      });
-
-      if (response.status === 200) {
-        console.log(response);
-      } else {
-        navigate("/login");
-      }
-    } catch (error) {
-      console.error("Error checking user authentication:", error);
-    }
-  };
-
-  useEffect(() => {
-    checkLoggedIn();
-  }, []);
-
+  console.log(monthlySaleData);
   const lineChartRef = useRef(null);
   const pieChartRef = useRef(null);
 
   useEffect(() => {
-    // Start Line Chart
-    const lineData = [
-      { year: 2010, count: 10 },
-      { year: 2011, count: 20 },
-      { year: 2012, count: 15 },
-      { year: 2013, count: 25 },
-      { year: 2014, count: 22 },
-      { year: 2015, count: 30 },
-      { year: 2016, count: 28 },
-    ];
+    console.log(monthlySaleData);
+
+
+    const monthMapping = {
+      1: "Jan",
+      2: "Feb",
+      3: "Mar",
+      4: "Apr",
+      5: "May",
+      6: "Jun",
+      7: "Jul",
+      8: "Aug",
+      9: "Sep",
+      10: "Oct",
+      11: "Nov",
+      12: "Dec",
+    };
 
     const lineCtx = document.getElementById("lineChart");
 
@@ -69,11 +57,11 @@ const Dashboard = () => {
       lineChartRef.current = new Chart(lineCtx, {
         type: "line",
         data: {
-          labels: lineData.map((row) => row.year),
+          labels: monthlySaleData.map((row) => monthMapping[row.monthYear]),
           datasets: [
             {
-              label: "Acquisitions by year",
-              data: lineData.map((row) => row.count),
+              label: "Monthly Sale",
+              data: monthlySaleData.map((row) => row.amount),
             },
           ],
         },
@@ -87,7 +75,7 @@ const Dashboard = () => {
       }
     };
     // End Line Chart
-  }, []);
+  }, [dashboardData]);
 
   useEffect(() => {
     // Start Pie Chart
@@ -148,13 +136,17 @@ const Dashboard = () => {
       }
     };
     // End Pie Chart
-  }, []);
+  }, [dashboardData]);
+
+  if (loading) {
+    return;
+  }
 
   return (
     <>
       <Layout>
         <Grid container spacing={2} direction="row" justify="flex-start" alignItems="flex-start">
-          <Grid item xs={12} md={6} lg={3}>
+          <Grid size={{ xs: 12, md: 6, lg: 3 }}>
             <Box sx={{ maxWidth: "100%" }} className="box">
               <Card variant="outlined">
                 <CardContent>
@@ -172,14 +164,14 @@ const Dashboard = () => {
                   </Typography>
 
                   <Typography sx={{ mb: 1 }} style={{ fontWeight: 500 }} color="text.secondary">
-                    $125.25
+                    ${totalSale}
                   </Typography>
                 </CardContent>
               </Card>
             </Box>
           </Grid>
 
-          <Grid item xs={12} md={6} lg={3}>
+          <Grid size={{ xs: 12, md: 6, lg: 3 }}>
             <Box sx={{ maxWidth: "100%" }} className="box">
               <Card variant="outlined">
                 <CardContent>
@@ -204,7 +196,7 @@ const Dashboard = () => {
             </Box>
           </Grid>
 
-          <Grid item xs={12} md={6} lg={3}>
+          <Grid size={{ xs: 12, md: 6, lg: 3 }}>
             <Box sx={{ maxWidth: "100%" }} className="box">
               <Card variant="outlined">
                 <CardContent>
@@ -222,14 +214,14 @@ const Dashboard = () => {
                   </Typography>
 
                   <Typography sx={{ mb: 1 }} style={{ fontWeight: 500 }} color="text.secondary">
-                    6000
+                    {dashboardData.totalCategories}
                   </Typography>
                 </CardContent>
               </Card>
             </Box>
           </Grid>
 
-          <Grid item xs={12} md={6} lg={3}>
+          <Grid size={{ xs: 12, md: 6, lg: 3 }}>
             <Box sx={{ maxWidth: "100%" }} className="box">
               <Card variant="outlined">
                 <CardContent>
@@ -247,14 +239,14 @@ const Dashboard = () => {
                   </Typography>
 
                   <Typography sx={{ mb: 1 }} style={{ fontWeight: 500 }} color="text.secondary">
-                    6000
+                    {dashboardData.totalBrands}
                   </Typography>
                 </CardContent>
               </Card>
             </Box>
           </Grid>
 
-          <Grid item xs={12} md={8} lg={9}>
+          <Grid size={{ xs: 12, md: 8, lg: 9 }}>
             <Box className="box">
               <Card variant="outlined">
                 <CardContent>
@@ -264,7 +256,7 @@ const Dashboard = () => {
             </Box>
           </Grid>
 
-          <Grid item xs={12} md={4} lg={3}>
+          <Grid size={{ xs: 12, md: 4, lg: 3 }}>
             <Box className="box">
               <Card variant="outlined">
                 <CardContent>

@@ -11,16 +11,16 @@ const Footer = () => {
       <footer>
         <div className="footer">
           <div className="row">
-            <a href="#">
+            <a href="javscript:void(0);">
               <FacebookIcon className="social-icon" />
             </a>
-            <a href="#">
+            <a href="javscript:void(0);">
               <InstagramIcon className="social-icon" />
             </a>
-            <a href="#">
+            <a href="javscript:void(0);">
               <YouTubeIcon className="social-icon" />
             </a>
-            <a href="#">
+            <a href="javscript:void(0);">
               <XIcon className="social-icon" />
             </a>
           </div>
@@ -28,19 +28,19 @@ const Footer = () => {
           <div className="row">
             <ul>
               <li>
-                <a href="#">Contact us</a>
+                <a href="javscript:void(0);">Contact us</a>
               </li>
               <li>
-                <a href="#">Our Services</a>
+                <a href="javscript:void(0);">Our Services</a>
               </li>
               <li>
-                <a href="#">Privacy Policy</a>
+                <a href="javscript:void(0);">Privacy Policy</a>
               </li>
               <li>
-                <a href="#">Terms & Conditions</a>
+                <a href="javscript:void(0);">Terms & Conditions</a>
               </li>
               <li>
-                <a href="#">Career</a>
+                <a href="javscript:void(0);">Career</a>
               </li>
             </ul>
           </div>

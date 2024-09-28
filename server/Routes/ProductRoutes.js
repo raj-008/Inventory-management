@@ -6,6 +6,7 @@ const ProductValidation = require("../Validation/ProductValidation");
 
 router.get("/", AuthController.protect, ProductController.read);
 router.post("/create", AuthController.protect, ProductValidation(), ProductController.create);
+router.get("/edit/:id", AuthController.protect, ProductController.edit);
 router.post("/update/:id", AuthController.protect, ProductValidation(), ProductController.update);
 router.delete("/delete/:id", AuthController.protect, ProductController.destroy);
 

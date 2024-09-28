@@ -11,20 +11,18 @@ import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 const Register = () => {
-
   const isLoggedIn = localStorage.getItem("_authToken");
 
-  if(isLoggedIn){
+  if (isLoggedIn) {
     window.location.href = "/dashboard";
   }
 
   const { token, userId } = useParams();
-  const navigate = useNavigate();
 
   const [input, setInputValue] = useState({
     password: "",
@@ -58,7 +56,7 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("/reset-password", {
+      const response = await axios.post("/api/v1/user/reset-password", {
         password: input.password,
         cpassword: input.cpassword,
         token: token,

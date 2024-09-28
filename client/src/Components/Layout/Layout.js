@@ -21,10 +21,14 @@ import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
 import { useEffect } from "react";
 import "./layout.css";
 import SettingsIcon from "@mui/icons-material/Settings";
-import { useNavigate, Link, BrowserRouter, Routes, Route } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import GrainRoundedIcon from "@mui/icons-material/GrainRounded";
 import LogoutIcon from "@mui/icons-material/Logout";
+import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
+import BubbleChartIcon from "@mui/icons-material/BubbleChart";
+import InventoryIcon from "@mui/icons-material/Inventory";
+import { useAuth } from "../../Context/AuthContext";
 
 const drawerWidth = 240;
 const openedMixin = (theme) => ({
@@ -90,17 +94,14 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== "open" 
 }));
 
 export default function Layout({ children }) {
-  const navigate = useNavigate();
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const { logOut, user } = useAuth();
 
   const isBigScreen = useMediaQuery("(min-width: 1140px)", false);
   const theme = useTheme();
   const [open, setOpen] = React.useState(isBigScreen);
-
-  const handleLogout = async () => {
-    localStorage.removeItem("_authToken");
-    window.location.href = "/";
-  };
 
   useEffect(() => {
     setOpen(isBigScreen);
@@ -114,33 +115,68 @@ export default function Layout({ children }) {
     setOpen(false);
   };
 
+  let pageTitle;
+
+  switch (location.pathname) {
+    case "/admin/settings":
+      pageTitle = "Settings";
+      break;
+    case "/admin/dashboard":
+      pageTitle = "Dashboard";
+      break;
+    case "/dashboard":
+      pageTitle = "Dashboard";
+      break;
+    case "/bill":
+      pageTitle = "Bills";
+      break;
+    case "/brands":
+      pageTitle = "Brands";
+      break;
+    case "/category":
+      pageTitle = "Category";
+      break;
+    case "/product":
+      pageTitle = "Product";
+      break;
+    case "/settings":
+      pageTitle = "Settings";
+      break;
+    case "/product/create":
+      pageTitle = "Create Product";
+      break;
+    case "/product/edit":
+      pageTitle = "Edit Product";
+      break;
+    case "/bill/create":
+      pageTitle = "Create Bill";
+      break;
+    case "/bill/edit":
+      pageTitle = "Edit Bill";
+      break;
+    default:
+      pageTitle = "Inventory";
+  }
+
   return (
     <>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <AppBar position="fixed" open={open} className="header" style={{ background: "#003399", boxShadow: "none" }}>
           <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              edge="start"
-              sx={{
-                marginRight: 5,
-                ...(open && { display: "none" }),
-              }}
-            >
+            <IconButton color="inherit" aria-label="open drawer" onClick={handleDrawerOpen} edge="start" sx={{ marginRight: 5, ...(open && { display: "none" }) }}>
               <MenuIcon />
             </IconButton>
 
             <Typography noWrap component="div" className="page-title">
-              Dashboard
+              {pageTitle}
             </Typography>
 
             <div className="profile">
               <div className="profile-img-container">
                 <img src="https://tse1.mm.bing.net/th?id=OIP.nczpMSa69aDJWYGi0tKqggHaHa&pid=Api&P=0&h=180" alt="profile_img" className="profile-img" style={{ height: "52px", width: "48px" }} />
               </div>
+
               <Typography variant="h6" noWrap component="div" className="header-title">
                 Mini variant drawer
               </Typography>
@@ -159,51 +195,97 @@ export default function Layout({ children }) {
           <Divider />
 
           <List className="sidebar siderbar-links">
-            <Link to="/dashboard" className="sidebar-link">
-              <ListItem key="Dashboard" disablePadding sx={{ display: "block" }} className={location.pathname === "/dashboard" ? "active-nav" : ""}>
-                <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
-                  <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
-                    <GridViewRoundedIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Dashboard" sx={{ opacity: open ? 1 : 0 }} />
-                </ListItemButton>
-              </ListItem>
-            </Link>
+            {user.role === "user" ? (
+              <>
+                <Link to="/dashboard" className="sidebar-link">
+                  <ListItem key="Dashboard" disablePadding sx={{ display: "block" }} className={location.pathname === "/dashboard" ? "active-nav" : ""}>
+                    <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
+                      <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
+                        <GridViewRoundedIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Dashboard" sx={{ opacity: open ? 1 : 0 }} />
+                    </ListItemButton>
+                  </ListItem>
+                </Link>
+                <Link to="/bill" className="sidebar-link">
+                  <ListItem key="Bill" disablePadding sx={{ display: "block" }} className={location.pathname === "/bill" ? "active-nav" : ""}>
+                    <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
+                      <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
+                        <ReceiptLongIcon />
+                        {/* <ReceiptIcon /> */}
+                      </ListItemIcon>
+                      <ListItemText primary="Bill" sx={{ opacity: open ? 1 : 0 }} />
+                    </ListItemButton>
+                  </ListItem>
+                </Link>
+                <Link to="/brands" className="sidebar-link">
+                  <ListItem key="Brand" disablePadding sx={{ display: "block" }} className={location.pathname === "/brands" ? "active-nav" : ""}>
+                    <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
+                      <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
+                        <BubbleChartIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Brand" sx={{ opacity: open ? 1 : 0 }} />
+                    </ListItemButton>
+                  </ListItem>
+                </Link>
+                <Link to="/category" className="sidebar-link">
+                  <ListItem key="Category" disablePadding sx={{ display: "block" }} className={location.pathname === "/category" ? "active-nav" : ""}>
+                    <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
+                      <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
+                        <GrainRoundedIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Category" sx={{ opacity: open ? 1 : 0 }} />
+                    </ListItemButton>
+                  </ListItem>
+                </Link>
+                <Link to="/product" className="sidebar-link">
+                  <ListItem key="Product" disablePadding sx={{ display: "block" }} className={location.pathname === "/product" ? "active-nav" : ""}>
+                    <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
+                      <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
+                        <InventoryIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Product" sx={{ opacity: open ? 1 : 0 }} />
+                    </ListItemButton>
+                  </ListItem>
+                </Link>
+                {/* <Link to="/settings" className="sidebar-link">
+                  <ListItem key="Setting" disablePadding sx={{ display: "block" }} className={location.pathname === "/settings" ? "active-nav" : ""}>
+                    <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
+                      <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
+                        <SettingsIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Setting" sx={{ opacity: open ? 1 : 0 }} />
+                    </ListItemButton>
+                  </ListItem>
+                </Link> */}
+              </>
+            ) : null}
+            {user.role === "admin" ? (
+              <>
+                <Link to="/admin/dashboard" className="sidebar-link">
+                  <ListItem disablePadding sx={{ display: "block" }} className={location.pathname === "/admin/dashboard" ? "active-nav" : ""}>
+                    <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
+                      <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
+                        <GridViewRoundedIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Dashboard" sx={{ opacity: open ? 1 : 0 }} />
+                    </ListItemButton>
+                  </ListItem>
+                </Link>
+                {/* <Link to="/admin/settings" className="sidebar-link">
+                  <ListItem disablePadding sx={{ display: "block" }} className={location.pathname === "/admin/settings" ? "active-nav" : ""}>
+                    <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
+                      <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
+                        <SettingsIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Settings" sx={{ opacity: open ? 1 : 0 }} />
+                    </ListItemButton>
+                  </ListItem>
+                </Link> */}
+              </>
+            ) : null}
 
-            <Link to="/category" className="sidebar-link">
-              <ListItem key="Category" disablePadding sx={{ display: "block" }} className={location.pathname === "/category" ? "active-nav" : ""}>
-                <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
-                  <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
-                    <GrainRoundedIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Category" sx={{ opacity: open ? 1 : 0 }} />
-                </ListItemButton>
-              </ListItem>
-            </Link>
-
-            {/* <Link to="/category" className="sidebar-link">
-              <ListItem key="Category" disablePadding sx={{ display: "block" }} className={location.pathname === "/category" ? "active-nav" : ""}>
-                <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
-                  <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
-                    <GrainRoundedIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Product" sx={{ opacity: open ? 1 : 0 }} />
-                </ListItemButton>
-              </ListItem>
-            </Link> */}
-
-            <Link to="/setting" className="sidebar-link">
-              <ListItem key="Setting" disablePadding sx={{ display: "block" }} className={location.pathname === "/setting" ? "active-nav" : ""}>
-                <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
-                  <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
-                    <SettingsIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Setting" sx={{ opacity: open ? 1 : 0 }} />
-                </ListItemButton>
-              </ListItem>
-            </Link>
-
-            <Link to="" onClick={handleLogout} className="sidebar-link">
+            <Link to="/" onClick={logOut} className="sidebar-link">
               <ListItem key="Setting" disablePadding sx={{ display: "block" }} className={location.pathname === "/logout" ? "active-nav" : ""}>
                 <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
                   <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>

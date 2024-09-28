@@ -4,6 +4,9 @@ const ValidationErrorHandler = require("../Validation/ValidationErrorHandler");
 const Bill = require("../Models/BillModel");
 const Product = require("../Models/ProductModel");
 const CustomError = require("../Utils/CustomError");
+const generateBillNumber = require("../Utils/CreateBillNumber");
+const mongoose = require("mongoose");
+const { ObjectId } = mongoose.Types;
 
 exports.read = asyncErrorHandler(async (req, res) => {
   const bills = await Bill.aggregate([
@@ -55,8 +58,73 @@ exports.read = asyncErrorHandler(async (req, res) => {
   return sendResponse(res, "Bills Retrived Successfully", bills);
 });
 
-exports.create = asyncErrorHandler(async (req, res) => {
+exports.getBillDeatils = asyncErrorHandler(async (req, res) => {
+  const bills = await Bill.aggregate([
+    {
+      $match: { _id: new ObjectId(req.params.id) },
+    },
+    {
+      $lookup: {
+        from: "products",
+        localField: "product_id",
+        foreignField: "_id",
+        as: "products",
+      },
+    },
+    {
+      $unwind: "$products",
+    },
+    {
+      $lookup: {
+        from: "brands",
+        localField: "products.brand_id",
+        foreignField: "_id",
+        as: "products.brand",
+      },
+    },
+    {
+      $unwind: "$products.brand",
+    },
+    {
+      $lookup: {
+        from: "categories",
+        localField: "products.category_id",
+        foreignField: "_id",
+        as: "products.categories",
+      },
+    },
+    {
+      $unwind: "$products.categories",
+    },
+    {
+      $project: {
+        "products.createdAt": 0,
+        "products.updatedAt": 0,
+        "brand.createdAt": 0,
+        "brand.updatedAt": 0,
+        "categories.createdAt": 0,
+        "categories.updatedAt": 0,
+      },
+    },
+  ]);
+
+  const singleBill = bills.length > 0 ? bills[0] : null;
+
+  return sendResponse(res, "Bills Retrived Successfully", singleBill);
+});
+
+exports.create = asyncErrorHandler(async (req, res, next) => {
   ValidationErrorHandler(req);
+
+  // const billNumber = await generateBillNumber();
+
+  // req.body.bill_number = billNumber;
+
+  const isBillNumberExist = await Bill.exists({ bill_number: req.body.bill_number });
+
+  if (isBillNumberExist) {
+    return next(new CustomError("Bill Number already exits in the previous bill"));
+  }
 
   const productQty = await Product.findById(req.body.product_id).select({ qty: 1 });
 

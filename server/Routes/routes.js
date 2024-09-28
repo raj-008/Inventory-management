@@ -25,6 +25,6 @@ router.use("/product", ProductRoutes);
 router.use("/bill", BillRoutes);
 router.use("/dashboard", DashboardRoutes);
 router.use("/admin/user", AdminUserRoutes);
-router.use("/admin/settings", AdminSettingRoutes);
+router.use("/", AdminSettingRoutes);
 
 module.exports = router;

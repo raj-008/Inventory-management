@@ -11,7 +11,7 @@ exports.dashboardData = asyncErrorHandler(async (req, res) => {
   const products = await Bill.aggregate([
     {
       $group: {
-        _id: { $concat: [{ $toString: { $month: "$createdAt" } }, "-", { $toString: { $year: "$createdAt" } }] },
+        _id: { $concat: { $toString: { $month: "$createdAt" } } },
         monthlySale: { $sum: "$total_amount" },
       },
     },

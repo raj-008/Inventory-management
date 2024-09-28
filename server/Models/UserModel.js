@@ -10,7 +10,7 @@ const UserSchema = mongoose.Schema(
     fname: { type: String, required: true },
     lname: { type: String, required: true },
     email: { type: String, required: true, index: { unique: true } },
-    phone: { type: String, required: true, index: { unique: true } },
+    phone: { type: String,  },
     company: { type: String, required: true },
     password: { type: String, required: true, select: false },
     role: { type: String, enum: ["user", "admin"], default: "user" },

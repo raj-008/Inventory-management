@@ -16,7 +16,7 @@ app.use(cookieParser());
 app.use("/api/v1", routes);
 app.all("*", (req, res, next) => {
   // res.status(404).json({
-  //     status: 'fail',
+  //     status: 'fail',  
   //     message: `Can't find ${req.originalUrl} on the server!`
   // });
   // const err = new Error(`Can't find ${req.originalUrl} on the server!`);

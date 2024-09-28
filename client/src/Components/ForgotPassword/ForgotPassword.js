@@ -11,10 +11,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const Login = () => {
-
   const isLoggedIn = localStorage.getItem("_authToken");
 
-  if(isLoggedIn){
+  if (isLoggedIn) {
     window.location.href = "/dashboard";
   }
 
@@ -26,7 +25,7 @@ const Login = () => {
 
   const handleForgotPassword = async () => {
     try {
-      const resposne = await axios.post("/forgot-password", {
+      const resposne = await axios.post("/api/v1/user/forgot-password", {
         email,
       });
       console.log(resposne);

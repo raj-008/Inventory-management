@@ -18,6 +18,12 @@ exports.store = asyncErrorHandler(async (req, res) => {
   return sendResponse(res, "Brand saved successfully", data);
 });
 
+exports.edit = asyncErrorHandler(async (req, res) => {
+  const data = await Brand.findById(req.params.id);
+
+  return sendResponse(res, "Brand Retrived successfully", data);
+});
+
 exports.update = asyncErrorHandler(async (req, res) => {
 
   ValidationErrorHandler(req);

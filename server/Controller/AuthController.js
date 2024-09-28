@@ -20,7 +20,6 @@ exports.login = asyncErrorHandler(async (req, res, next) => {
   ValidationErrorHandler(req);
 
   const { email, password } = req.body;
-
   if (!email || !password) {
     const error = new CustomError("Please fill all the details", 401);
     return next(error);
@@ -34,7 +33,6 @@ exports.login = asyncErrorHandler(async (req, res, next) => {
   }
 
   const token = signToken(user._id);
-
   return sendResponse(res, "User LoggedIn Successfully", { token, user });
 });
 
@@ -67,7 +65,7 @@ exports.forgotPassword = asyncErrorHandler(async (req, res, next) => {
 exports.resetPassword = asyncErrorHandler(async (req, res, next) => {
   ValidationErrorHandler(req);
 
-  const { token, password, cpassword, userId } = req.body;
+  const { token, password, userId } = req.body;
 
   const userData = await PasswordResetToken.findOne({ user_id: userId }).limit(1).sort({ $natural: -1 });
 
@@ -133,7 +131,6 @@ exports.protect = asyncErrorHandler(async (req, res, next) => {
   }
   // 2. Validate the token
   const decodedToken = await util.promisify(jwt.verify)(token, process.env.SECRET_KEY);
-
   // 3. If the User Exist
   const user = await User.findById(decodedToken.id);
 

@@ -19,28 +19,14 @@ import About from "../About/About";
 import Contact from "../Contact/Contact";
 import Hero from "../Hero/Hero";
 import Feature from "../Feature/Feature";
-import Plan from "../Plan/Plan";
+// import Plan from "../Plan/Plan";
 import { Link } from "react-router-dom";
-import { useRef } from "react";
-const drawerWidth = 240;
-const navItems = ["Home", "About", "Contact"];
-const navPaths = ["/", "/#", "/contact"];
-
-const isLoggedIn = localStorage.getItem("_authToken");
-
-if (isLoggedIn) {
-  navItems.push("Dashboard");
-  navPaths.push("/dashboard");
-} else {
-  navItems.push("Sign In");
-  navPaths.push("/login");
-}
+import { useAuth } from "../../Context/AuthContext";
+import { Link as ScrollableLink, Element } from "react-scroll";
 
 function Header(props) {
-  const aboutRef = useRef();
-  const scrollToAbout = () => {
-    aboutRef.current.scrollIntoView({ behaviour: "smooth" });
-  };
+  const drawerWidth = 240;
+  const { token } = useAuth();
 
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -52,10 +38,8 @@ function Header(props) {
   });
 
   function ElevationScroll(props) {
-    const { children, window } = props;
-    // Note that you normally won't need to set the window ref as useScrollTrigger
-    // will default to window.
-    // This is only being set here because the demo is in an iframe.
+    const { children } = props;
+
     const trigger = isScroll;
 
     return React.cloneElement(children, {
@@ -79,21 +63,57 @@ function Header(props) {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" className="app-title" sx={{ my: 2 }}>
-        MUI
+        Stockventri
       </Typography>
 
       <Divider />
 
       <List>
-        {navItems.map((item, index) => (
-          <ListItem key={item} disablePadding style={{ justifyContent: "center" }}>
-            <Link to={navPaths[index]} key={index} style={{ textDecoration: "none", color: "black !important" }}>
-              <Button sx={{ width: "100%", textAlign: "center" }} className={item === "Sign In" || item === "Dashboard" ? "main-btn" : ""} onClick={item === "About" && scrollToAbout}>
-                <ListItemText primary={item} />
+        <ListItem disablePadding style={{ justifyContent: "center" }}>
+          <ScrollableLink to="home" smooth={true} duration={500} style={{ textDecoration: "none", color: "black !important" }}>
+            <Button sx={{ width: "100%", textAlign: "center" }}>
+              <ListItemText primary="Home" />
+            </Button>
+          </ScrollableLink>
+        </ListItem>
+        <ListItem disablePadding style={{ justifyContent: "center" }}>
+          <ScrollableLink to="features" style={{ textDecoration: "none", color: "black !important" }} smooth={true} duration={500} offset={-100}>
+            <Button sx={{ width: "100%", textAlign: "center" }}>
+              <ListItemText primary="Features" />
+            </Button>
+          </ScrollableLink>
+        </ListItem>
+        <ListItem disablePadding style={{ justifyContent: "center" }}>
+          <ScrollableLink to="about" smooth={true} duration={500} offset={-100} style={{ textDecoration: "none", color: "black !important" }}>
+            <Button sx={{ width: "100%", textAlign: "center" }}>
+              <ListItemText primary="About" />
+            </Button>
+          </ScrollableLink>
+        </ListItem>
+        <ListItem disablePadding style={{ justifyContent: "center" }}>
+          <ScrollableLink to="contact" smooth={true} duration={500} offset={-150} style={{ textDecoration: "none", color: "black !important" }}>
+            <Button sx={{ width: "100%", textAlign: "center" }}>
+              <ListItemText primary="Contact" />
+            </Button>
+          </ScrollableLink>
+        </ListItem>
+        {token ? (
+          <ListItem disablePadding style={{ justifyContent: "center" }}>
+            <Link to="dashboard" style={{ textDecoration: "none", color: "black !important" }}>
+              <Button sx={{ width: "100%", textAlign: "center" }} className="main-btn">
+                <ListItemText primary="Dashboard" />
               </Button>
             </Link>
           </ListItem>
-        ))}
+        ) : (
+          <ListItem disablePadding style={{ justifyContent: "center" }}>
+            <Link to="login" style={{ textDecoration: "none", color: "black !important" }}>
+              <Button sx={{ width: "100%", textAlign: "center" }} className="main-btn">
+                <ListItemText primary="Sign In" />
+              </Button>
+            </Link>
+          </ListItem>
+        )}
       </List>
     </Box>
   );
@@ -109,23 +129,44 @@ function Header(props) {
             <IconButton color="inherit" aria-label="open drawer" edge="start" onClick={handleDrawerToggle} sx={{ mr: 2, display: { sm: "none" } }}>
               <MenuIcon style={{ color: "#000000" }} />
             </IconButton>
-            <img src="https://cdn.pixabay.com/photo/2016/09/14/20/50/tooth-1670434_1280.png" className="app-logo" alt="app_logo" />
+            <img src="stockventri-logo.png" className="app-logo" alt="app_logo" />
             <Typography variant="h6" component="div" sx={{ flexGrow: 1, display: { xs: "none", sm: "block" }, color: "#000000" }}>
               Stockventri
             </Typography>
             <Box sx={{ display: { xs: "none", sm: "block" } }}>
-              {navItems.map((item, index) => (
-                <Link to={navPaths[index]} key={index}>
-                  <Button
-                    key={item}
-                    variant={item === "Sign In" || item === "Dashboard" ? "contained" : ""}
-                    className={item === "Sign In" || item === "Dashboard" ? "main-btn" : "nav-btn"}
-                    sx={{ color: "#000000" }}
-                  >
-                    {item}
+              <ScrollableLink to="home" smooth={true} duration={500}>
+                <Button className="nav-btn" sx={{ color: "#000000" }}>
+                  Home
+                </Button>
+              </ScrollableLink>
+              <ScrollableLink to="features" smooth={true} duration={500} offset={-100}>
+                <Button className="nav-btn" sx={{ color: "#000000" }}>
+                  Features
+                </Button>
+              </ScrollableLink>
+              <ScrollableLink to="about" smooth={true} duration={500} offset={-100}>
+                <Button className="nav-btn" sx={{ color: "#000000" }}>
+                  About
+                </Button>
+              </ScrollableLink>
+              <ScrollableLink to="contact" smooth={true} duration={500} offset={-100}>
+                <Button className="nav-btn" sx={{ color: "#000000" }}>
+                  Contact
+                </Button>
+              </ScrollableLink>
+              {token ? (
+                <Link to="dashboard">
+                  <Button sx={{ color: "#000000" }} variant="contained" className="main-btn">
+                    Dashboard
                   </Button>
                 </Link>
-              ))}
+              ) : (
+                <Link to="login">
+                  <Button sx={{ color: "#000000" }} variant="contained" className="main-btn">
+                    Sign In
+                  </Button>
+                </Link>
+              )}
             </Box>
           </Toolbar>
         </AppBar>
@@ -148,27 +189,19 @@ function Header(props) {
           {drawer}
         </Drawer>
       </nav>
-
-      <Box component="main">
-        <Hero />
-
-        <Box sx={{ p: 2 }}>
-          <Feature />
-          <Plan />
-          <About aboutRef={aboutRef} />
-          <Contact />
+      <Element name="home">
+        <Box component="main">
+          <Hero />
+          <Box sx={{ p: 2 }}>
+            <Feature />
+            {/* <Plan /> */}
+            <About />
+            <Contact />
+          </Box>
         </Box>
-      </Box>
+      </Element>
     </Box>
   );
 }
-
-Header.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window: PropTypes.func,
-};
 
 export default Header;

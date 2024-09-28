@@ -20,8 +20,13 @@ exports.store = asyncErrorHandler(async (req, res) => {
   return sendResponse(res, "Category saved successfully", data);
 });
 
-exports.update = asyncErrorHandler(async (req, res) => {
+exports.edit = asyncErrorHandler(async (req, res) => {
+  const data = await Category.findById(req.params.id);
 
+  return sendResponse(res, "Categories Retrived successfully", data);
+});
+
+exports.update = asyncErrorHandler(async (req, res) => {
   ValidationErrorHandler(req);
 
   const id = req.params.id;

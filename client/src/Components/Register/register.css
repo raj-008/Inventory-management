@@ -25,6 +25,10 @@
   margin-left: 6px;
 }
 
+.fname-input {
+  padding-right: 12px !important;
+}
+
 @media (min-width: 1200px) {
   .fname-input {
     padding-right: 12px !important;
