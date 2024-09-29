@@ -35,7 +35,7 @@ function EditBill() {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        "/api/v1/bill/create",
+        `${window.SERVER_URL}/api/v1/bill/create`,
         { ...data },
         {
           headers: {

@@ -18,7 +18,7 @@ const Category = () => {
   } = useForm();  
 
   const [refreshKey, setRefreshKey] = useState(0);
-  const [data, error, loading] = useFetchData("/api/v1/category", refreshKey);
+  const [data, error, loading] = useFetchData(`${window.SERVER_URL}/api/v1/category`, refreshKey);
   const categories = data.data || [];
 
   const [editFormData, setEditFormData] = useState({ name: "", id: "" });
@@ -34,7 +34,7 @@ const Category = () => {
 
   const handleDeleteCategory = async (id) => {
     try {
-      const response = await axios.delete(`/api/v1/category/delete/${id}`, {
+      const response = await axios.delete(`${window.SERVER_URL}/api/v1/category/delete/${id}`, {
         headers: {
           Authorization: "Bearer " + token,
         },
@@ -51,7 +51,7 @@ const Category = () => {
 
   const handleEdit = async (id) => {
     try {
-      const response = await axios.get(`api/v1/category/edit/${id}`, {
+      const response = await axios.get(`${window.SERVER_URL}/api/v1/category/edit/${id}`, {
         headers: {
           Authorization: "Bearer " + token,
         }
@@ -72,7 +72,7 @@ const Category = () => {
 
   const createCategorySubmit = async (data) => {
     try {
-      const response = await axios.post("/api/v1/category/create", data, {
+      const response = await axios.post(`${window.SERVER_URL}/api/v1/category/create`, data, {
         headers: {
           Authorization: "Bearer " + token,
         },
@@ -90,7 +90,7 @@ const Category = () => {
 
   const updateCategorySubmit = async (data) => {
     try {
-      const response = await axios.post("/api/v1/category/update/" + editFormData.id, data, {
+      const response = await axios.post(`${window.SERVER_URL}/api/v1/category/update/` + editFormData.id, data, {
         headers: {
           Authorization: "Bearer " + token,
         },

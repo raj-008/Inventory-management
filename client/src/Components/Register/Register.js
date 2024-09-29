@@ -52,7 +52,7 @@ const Register = () => {
 
   const onRegisterSubmit = async ({ fname, lname, company, phone, email, password, cpassword }) => {
     try {
-      const response = await axios.post("/api/v1/register", { fname, lname, company, phone, email, password, cpassword });
+      const response = await axios.post(`${window.SERVER_URL}/api/v1/register`, { fname, lname, company, phone, email, password, cpassword });
 
       console.log();
 

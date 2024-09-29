@@ -7,7 +7,6 @@ import Button from "@mui/material/Button";
 import useFetchData from "../../../hooks/useFetchData";
 
 function Setting() {
-
   const [refreshKey, setRefreshKey] = useState(0);
   const [setting, setSetting] = useState({
     appAddress: "",
@@ -15,7 +14,7 @@ function Setting() {
     appContact: "",
   });
 
-  const [data, error, loading] = useFetchData("/api/v1/settings/66e829340c253066f5300889", refreshKey);
+  const [data, error, loading] = useFetchData(`${window.SERVER_URL}/api/v1/settings/66e829340c253066f5300889`, refreshKey);
   const settings = data.data || [];
 
   useEffect(() => {

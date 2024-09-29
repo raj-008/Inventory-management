@@ -6,7 +6,7 @@ import useFetchData from "../../../hooks/useFetchData";
 
 const User = () => {
   const [refreshKey, setRefreshKey] = useState(0);
-  const [data, error, loading] = useFetchData("/api/v1/admin/user", refreshKey);
+  const [data, error, loading] = useFetchData(`${window.SERVER_URL}/api/v1/admin/user`, refreshKey);
   const users = data.data || [];
   const tableColumns = userTableColumns();
   return (

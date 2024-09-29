@@ -14,7 +14,7 @@ import useFetchData from "../../hooks/useFetchData";
 
 const Dashboard = () => {
   const [refreshKey, setRefreshKey] = useState(0);
-  const [data, error, loading] = useFetchData("/api/v1/dashboard", refreshKey);
+  const [data, error, loading] = useFetchData(`${window.SERVER_URL}/api/v1/dashboard`, refreshKey);
   const dashboardData = data.data || [];
   let totalSale = 0;
   let monthlySaleData = [];

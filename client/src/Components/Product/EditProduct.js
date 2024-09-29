@@ -24,13 +24,13 @@ function EditProduct() {
 
   const { id } = useParams();
 
-  const [productData, productError, productLoading] = useFetchData("/api/v1/product/edit/" + id, 0);
+  const [productData, productError, productLoading] = useFetchData(`${window.SERVER_URL}/api/v1/product/edit/` + id, 0);
   const product = productData?.data || [];
 
-  const [categoryData, categoryError, categoryLoading] = useFetchData("/api/v1/category", 0);
+  const [categoryData, categoryError, categoryLoading] = useFetchData(`${window.SERVER_URL}/api/v1/category`, 0);
   const categories = categoryData?.data || [];
 
-  const [brandData, brandError, brandLoading] = useFetchData("/api/v1/brand", 0);
+  const [brandData, brandError, brandLoading] = useFetchData(`${window.SERVER_URL}/api/v1/brand`, 0);
   const brands = brandData?.data || [];
 
   const {
@@ -57,7 +57,7 @@ function EditProduct() {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        "/api/v1/product/update/" + id,
+        `${window.SERVER_URL}/api/v1/product/update/` + id,
         { ...data, status: 1 },
         {
           headers: {

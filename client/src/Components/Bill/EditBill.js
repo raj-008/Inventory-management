@@ -31,10 +31,10 @@ function EditBill() {
 
   const { id } = useParams();
 
-  const [productData, productError, productLoading] = useFetchData("/api/v1/product", 0);
+  const [productData, productError, productLoading] = useFetchData(`${window.SERVER_URL}/api/v1/product`, 0);
   const products = productData?.data || [];
 
-  const [billData, billError, billLoading] = useFetchData("/api/v1/bill/details/" + id, 0);
+  const [billData, billError, billLoading] = useFetchData(`${window.SERVER_URL}/api/v1/bill/details/` + id, 0);
   const bill = billData?.data || [];
 
   useEffect(() => {

@@ -25,7 +25,7 @@ const Login = () => {
 
   const handleForgotPassword = async () => {
     try {
-      const resposne = await axios.post("/api/v1/user/forgot-password", {
+      const resposne = await axios.post(`${window.SERVER_URL}/api/v1/user/forgot-password`, {
         email,
       });
       console.log(resposne);

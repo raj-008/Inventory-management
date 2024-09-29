@@ -12,7 +12,7 @@ const AuthProvider = ({ children }) => {
 
   const loginAction = async (input) => {
     try {
-      const data = await axios.post("/api/v1/login", input);
+      const data = await axios.post(`${window.SERVER_URL}/api/v1/login`, input);
 
       const result = data.data;
       if (result.statusCode === 200) {

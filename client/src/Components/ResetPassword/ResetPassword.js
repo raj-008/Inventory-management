@@ -56,7 +56,7 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("/api/v1/user/reset-password", {
+      const response = await axios.post(`${window.SERVER_URL}/api/v1/user/reset-password`, {
         password: input.password,
         cpassword: input.cpassword,
         token: token,

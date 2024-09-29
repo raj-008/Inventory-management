@@ -24,6 +24,8 @@ import CreateBill from "./Components/Bill/CreateBill";
 import CreateProduct from "./Components/Product/CreateProduct";
 
 const App = () => {
+  window.SERVER_URL = "http://localhost:9000";
+
   return (
     <>
       <StrictMode>

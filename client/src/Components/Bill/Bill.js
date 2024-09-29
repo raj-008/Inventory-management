@@ -14,7 +14,7 @@ function Bill() {
   const [open, setOpen] = useState(false);
   const handleOpen = async (id) => {
     try {
-      const response = await axios.get("/api/v1/bill/details/" + id, {
+      const response = await axios.get(`${window.SERVER_URL}/api/v1/bill/details/` + id, {
         headers: {
           Authorization: "Bearer " + token,
         },
@@ -32,12 +32,12 @@ function Bill() {
   const { token } = useAuth();
 
   const [refreshKey, setRefreshKey] = useState(0);
-  const [data, error, loading] = useFetchData("/api/v1/bill", refreshKey);
+  const [data, error, loading] = useFetchData(`${window.SERVER_URL}/api/v1/bill`, refreshKey);
   const bills = data.data || [];
 
   const handleDelete = async (id) => {
     try {
-      const response = await axios.delete("/api/v1/bill/delete/" + id, {
+      const response = await axios.delete(`${window.SERVER_URL}/api/v1/bill/delete/` + id, {
         headers: {
           Authorization: "Bearer " + token,
         },

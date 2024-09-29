@@ -65,9 +65,7 @@ function Header(props) {
       <Typography variant="h6" className="app-title" sx={{ my: 2 }}>
         Stockventri
       </Typography>
-
       <Divider />
-
       <List>
         <ListItem disablePadding style={{ justifyContent: "center" }}>
           <ScrollableLink to="home" smooth={true} duration={500} style={{ textDecoration: "none", color: "black !important" }}>

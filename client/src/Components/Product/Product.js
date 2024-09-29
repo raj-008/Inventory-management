@@ -11,14 +11,14 @@ import { useAuth } from "../../Context/AuthContext";
 const Product = () => {
   const navigate = useNavigate();
   const [refreshKey, setRefreshKey] = useState(0);
-  const [data, error, loading] = useFetchData("/api/v1/product", refreshKey);
+  const [data, error, loading] = useFetchData(`${window.SERVER_URL}/api/v1/product`, refreshKey);
   const products = data.data || [];
 
   const { token } = useAuth();
 
   const handleDelete = async (id) => {
     try {
-      const response = await axios.delete("/api/v1/product/delete/" + id, {
+      const response = await axios.delete(`${window.SERVER_URL}/api/v1/product/delete/` + id, {
         headers: {
           Authorization: "Bearer " + token,
         },

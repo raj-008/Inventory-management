@@ -29,10 +29,10 @@ function CreateProduct() {
 
   const navigate = useNavigate();
 
-  const [categoryData, categoryError, categoryLoading] = useFetchData("/api/v1/category", 0);
+  const [categoryData, categoryError, categoryLoading] = useFetchData(`${window.SERVER_URL}/api/v1/category`, 0);
   const categories = categoryData?.data || [];
 
-  const [brandData, brandError, brandLoading] = useFetchData("/api/v1/brand", 0);
+  const [brandData, brandError, brandLoading] = useFetchData(`${window.SERVER_URL}/api/v1/brand`, 0);
   const brands = brandData?.data || [];
 
   const onSubmit = async (data) => {
