@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+require("dotenv").config();
 
 process.on("uncaughtException", (err) => {
   console.log(err.name, err.message);
@@ -9,7 +10,7 @@ process.on("uncaughtException", (err) => {
 const app = require("./app");
 
 mongoose.promise = global.Promise;
-mongoose.connect("mongodb://127.0.0.1:27017/inventory").then(() => {
+mongoose.connect(process.env.URI).then(() => {
   console.log("Database connection established");
 });
 
