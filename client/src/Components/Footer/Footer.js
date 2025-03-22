@@ -45,7 +45,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          <div className="row">INFERNO Copyright © 2021 Inferno - All rights reserved || Designed By: Raj Shingala</div>
+          <div className="row">Stockventri Copyright © 2021 Stockventri - All rights reserved</div>
         </div>
       </footer>
     </>

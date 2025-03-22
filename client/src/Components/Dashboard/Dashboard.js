@@ -23,14 +23,11 @@ const Dashboard = () => {
     monthlySaleData = dashboardData.productsData.monthlySale;
   }
 
-  console.log(monthlySaleData);
   const lineChartRef = useRef(null);
   const pieChartRef = useRef(null);
 
   useEffect(() => {
-    console.log(monthlySaleData);
-
-
+    
     const monthMapping = {
       1: "Jan",
       2: "Feb",
@@ -54,6 +51,10 @@ const Dashboard = () => {
         lineChartRef.current.destroy();
       }
 
+      if(!monthlySaleData) monthlySaleData = [];
+
+
+      // monthlySaleData = [1000,20000,30000,40000];
       lineChartRef.current = new Chart(lineCtx, {
         type: "line",
         data: {

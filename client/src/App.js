@@ -48,10 +48,10 @@ const App = () => {
                 <Route path="/product/edit/:id" element={<ProductEdit />} />
               </Route>
 
-              <Route element={<AdminProtectedRoute />}>
+              {/* <Route element={<AdminProtectedRoute />}> */}
                 <Route path="/admin/dashboard" element={<User />} />
                 {/* <Route path="/admin/settings" element={<Settings />} /> */}
-              </Route>
+              {/* </Route> */}
 
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />

@@ -5,6 +5,8 @@ import ModeIcon from "@mui/icons-material/Mode";
 import DeleteIcon from "@mui/icons-material/Delete";
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import { Link } from "react-router-dom";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
+import Tooltip from "@mui/material/Tooltip";
 
 const productTableColumns = (navigate, handleDelete) => [
   {
@@ -90,6 +92,13 @@ export const ActionButton = ({ setIsEdit, handleOpen }) => {
         <IconButton variant="text" style={{ padding: "12px 12px" }}>
           <LibraryAddIcon style={{ fontSize: "32px", color: "#737373" }} />
         </IconButton>
+      </Link>
+      <Link to="/product/create">
+        <Tooltip title="Excel Import">
+          <IconButton variant="text" style={{ padding: "12px 12px" }}>
+            <UploadFileIcon style={{ fontSize: "32px", color: "#737373" }} />
+          </IconButton>
+        </Tooltip>
       </Link>
     </>
   );

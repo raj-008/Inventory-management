@@ -19,7 +19,7 @@ const About = ({ aboutRef }) => {
 
           <div className="about-img-container">
             <img
-              src="https://medialibrarycdn.blueyonder.com/-/media/images/blue%20yonder/master/petal%20hero%20images/wms_hero1920x1080.jpg?h=1080&iar=0&w=1920&rev=-1"
+              src="https://media.istockphoto.com/id/1288148699/photo/young-business-woman-in-office-stock-photo.jpg?s=2048x2048&w=is&k=20&c=INLng5rZnkj7fzRHCWp_As_INJB0MN6L0Z27uk1gqPY="
               alt="about_us"
               className="about-img"
             />

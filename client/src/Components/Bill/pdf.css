@@ -1,0 +1,53 @@
+/* Ensure the printed document is styled correctly */
+.print-container {
+  box-shadow: none !important;
+}
+
+.card-content {
+  border: 1px solid black;
+}
+
+.pdf-table table {
+  width: 100%;
+}   
+
+.pdf-table  th,
+.pdf-table  td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: left;
+}
+
+.css-1hbyh2g-MuiPaper-root-MuiTableContainer-root {
+  border-radius: 0px !important;
+  box-shadow: none !important;
+}
+
+@media print {
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .print-container {
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+  }
+
+  /* .card-content {
+        border: 1px solid black;
+    } */
+
+  /* table {
+      width: 100%;
+      border-collapse: collapse;
+    } */
+
+  /* th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    } */
+}

@@ -6,6 +6,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import { Link } from "react-router-dom";
 import InfoIcon from "@mui/icons-material/Info";
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 
 const billTableColumns = (navigate, handleClose, handleOpen, handleDelete) => [
   {
@@ -49,8 +50,11 @@ const billTableColumns = (navigate, handleClose, handleOpen, handleDelete) => [
         <IconButton variant="contained" value={row.id} onClick={() => handleDelete(row._id)}>
           <DeleteIcon style={{ color: "#ff8080" }} />
         </IconButton>
-        <IconButton variant="contained" value={row.id} onClick={() => handleOpen(row._id)}>
+        {/* <IconButton variant="contained" value={row.id} onClick={() => handleOpen(row._id)}>
           <InfoIcon style={{ color: "#00b300" }} />
+        </IconButton> */}
+        <IconButton variant="contained" value={row.id} onClick={() => handleOpen(row._id)}>
+          <PictureAsPdfIcon style={{ color: "#00b300" }} />
         </IconButton>
       </div>
     ),

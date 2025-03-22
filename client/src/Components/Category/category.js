@@ -7,7 +7,7 @@ import { useAuth } from "../../Context/AuthContext";
 import { errorToaster, successToaster } from "../../Utils/Toasters.utils";
 import useFetchData from "../../hooks/useFetchData";
 import CategoryModal from "./CategoryModal";
-import categoryTableColumns, { ActionButton } from "../../Components/Category/CategoryTableColumns";
+import categoryTableColumns, { ActionButton } from "./CategoryTableColumns";
 
 const Category = () => {
   const {
