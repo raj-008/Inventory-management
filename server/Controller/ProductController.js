@@ -3,6 +3,11 @@ const { sendResponse } = require("../Utils/ResponseUtils");
 const asyncErrorHandler = require("../Utils/asyncErrorHandler");
 const ValidationErrorHandler = require("../Validation/ValidationErrorHandler");
 const mongoose = require("mongoose");
+const CustomError = require("../Utils/CustomError");
+const xlsx = require("xlsx");
+const Brand = require("../Models/BrandModel");
+const Category = require("../Models/CategoryModel");
+const path = require("path");
 const { ObjectId } = mongoose.Types;
 
 exports.read = asyncErrorHandler(async (req, res) => {
@@ -55,6 +60,47 @@ exports.read = asyncErrorHandler(async (req, res) => {
   ]);
 
   return sendResponse(res, "Products retraived successfully", products);
+});
+
+exports.import = asyncErrorHandler(async (req, res) => {
+
+  const fileObj = req.file;
+  
+  if (!fileObj) {
+    throw new CustomError("File is not uploded", 404);
+  }
+
+  const extension = path.extname(fileObj.originalname).toLowerCase();
+  
+  if (extension != ".xlsx" && extension != ".xls") {
+    throw new CustomError("File should be .xlsx or .xls only", 404);
+  }
+
+  // read excel data 
+  const workbook = xlsx.read(req.file.buffer, { type: "buffer" });
+  const sheetName = workbook.SheetNames[0];
+  const jsonData = xlsx.utils.sheet_to_json(workbook.Sheets[sheetName]);
+
+  resData = [];
+
+  for(const data of jsonData) {
+
+    const {["Product Name"]: productName, Category: category,Brand: brand,Quantity: qty, Price: price, Unit: unit, Description: description} = data;  // convert Column name to field name
+
+    if(productName == "" || category == "" || brand == "" || qty == "" || price == "") continue;
+
+    const brandData =  await Brand.findOne({ name: brand });
+    if(!brandData) continue;
+
+    const categoryData = await Category.findOne({ name: category });
+    if(!categoryData) continue;
+    
+    await Product.create({name : productName, qty :  qty, unit : unit, amount :  price, description : description, category_id : categoryData._id, brand_id : brandData._id, });
+    
+    resData.push(data);
+  }
+
+  return sendResponse(res, "Product imported Successfully", resData);
 });
 
 exports.create = asyncErrorHandler(async (req, res) => {

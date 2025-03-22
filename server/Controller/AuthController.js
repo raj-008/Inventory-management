@@ -135,7 +135,7 @@ exports.protect = asyncErrorHandler(async (req, res, next) => {
   const user = await User.findById(decodedToken.id);
 
   if (!user) {
-    const error = CustomError("The user with given token does not exist", 400);
+    const error = new CustomError("The user with given token does not exist", 400);
     next(error);
   }
 
