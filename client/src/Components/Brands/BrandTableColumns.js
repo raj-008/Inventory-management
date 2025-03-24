@@ -16,7 +16,7 @@ const brandTableColumns = (handleEdit, handleDelete) => [
     name: "Created At",
     selector: (row) => moment(row.createdAt).format("DD-MM-YYYY HH:mm:ss"),
     sortable: true,
-    center: true,
+    center: "true",
     searchable: true,
   },
   {
@@ -31,7 +31,7 @@ const brandTableColumns = (handleEdit, handleDelete) => [
         </IconButton>
       </div>
     ),
-    center: true,
+    center: "true",
   },
 ];
 

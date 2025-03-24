@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../Layout/Layout";
-import { Paper, Typography } from "@mui/material";
+import { Paper } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";

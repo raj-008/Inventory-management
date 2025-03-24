@@ -117,7 +117,12 @@ export default function Layout({ children }) {
 
   let pageTitle;
 
-  switch (location.pathname) {
+  let pathParts = location.pathname.split("/").filter(Boolean); 
+  let part1 = pathParts.length > 0 ? `/${pathParts[0]}` : "";
+  let part2 = pathParts.length > 1 ? `/${pathParts[1]}` : "";
+  let url = part1 + part2;
+  
+  switch (url) {
     case "/admin/settings":
       pageTitle = "Settings";
       break;
@@ -174,11 +179,11 @@ export default function Layout({ children }) {
 
             <div className="profile">
               <div className="profile-img-container">
-                <img src="https://tse1.mm.bing.net/th?id=OIP.nczpMSa69aDJWYGi0tKqggHaHa&pid=Api&P=0&h=180" alt="profile_img" className="profile-img" style={{ height: "52px", width: "48px" }} />
+                <img src="https://tse1.mm.bing.net/th?id=OIP.nczpMSa69aDJWYGi0tKqggHaHa&pid=Api&P=0&h=180" alt="profile_img" className="profile-img" style={{ height: "44px", width: "44px", marginTop:"6px" }} />
               </div>
 
               <Typography variant="h6" noWrap component="div" className="header-title">
-                Mini variant drawer
+                {user.company}
               </Typography>
             </div>
           </Toolbar>

@@ -7,8 +7,10 @@ import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import { Link } from "react-router-dom";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import Tooltip from "@mui/material/Tooltip";
+import { styled } from '@mui/material/styles';
+import Button from '@mui/material/Button';
 
-const productTableColumns = (navigate, handleDelete) => [
+const productTableColumns = (navigate, handleDelete, handleExcelImport) => [
   {
     name: "Name",
     selector: (row) => row.name,
@@ -85,7 +87,21 @@ const productTableColumns = (navigate, handleDelete) => [
   },
 ];
 
-export const ActionButton = ({ setIsEdit, handleOpen }) => {
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+});
+
+
+
+export const ActionButton = ({ handleExcelImport }) => {
   return (
     <>
       <Link to="/product/create">
@@ -93,13 +109,12 @@ export const ActionButton = ({ setIsEdit, handleOpen }) => {
           <LibraryAddIcon style={{ fontSize: "32px", color: "#737373" }} />
         </IconButton>
       </Link>
-      <Link to="/product/create">
         <Tooltip title="Excel Import">
-          <IconButton variant="text" style={{ padding: "12px 12px" }}>
+          <Button component="label" role={undefined} tabIndex={-1}>
             <UploadFileIcon style={{ fontSize: "32px", color: "#737373" }} />
-          </IconButton>
+            <VisuallyHiddenInput type="file" accept=".xls, .xlsx"  onChange={(event) => { handleExcelImport(event.target.files[0], event)}} />
+          </Button>
         </Tooltip>
-      </Link>
     </>
   );
 };

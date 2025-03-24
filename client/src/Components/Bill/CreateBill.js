@@ -1,12 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../Layout/Layout";
-import { FormHelperText, Paper } from "@mui/material";
+import { Paper, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import TextField from "@mui/material/TextField";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -16,15 +12,19 @@ import GenerateBillNumber from "../../Utils/GenerateBillNumber";
 import axios from "axios";
 import { errorToaster, successToaster } from "../../Utils/Toasters.utils";
 import { useNavigate } from "react-router-dom";
-import Billing from "../Bill/Billing";
+import CreateBillRows from "../Bill/CreateBillRows";
 
-function EditBill() {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
+function CreateBill() {
+  const { register, handleSubmit, watch, setValue, getValues, control, formState: { errors }} = useForm({
+    defaultValues: {
+      bill_number: GenerateBillNumber(),
+      date: new Date().toLocaleDateString("en-GB").split("/").join("-"),
+      customer_name: "",
+      items: [{ product_id: "", qty: 0, price: 0 }],
+      total_amount: 0,
+      tax: 0,
+    },
+  });
 
   const navigate = useNavigate();
 
@@ -33,9 +33,17 @@ function EditBill() {
   const [productData, productError, productLoading] = useFetchData("/api/v1/product", 0);
   const products = productData?.data || [];
 
-  const [total, getTotal] = useState(0);
+  const [grandTotal, setGrandTotal] = useState(0);
+
+  useEffect(() => {
+    setValue("total_amount", grandTotal, { shouldValidate: true, shouldDirty: true });
+  }, [grandTotal, setValue]);
 
   const onSubmit = async (data) => {
+
+    const [day, month, year] = data.date.split("-");
+    data.date = new Date(`${year}-${month}-${day}T00:00:00Z`);
+
     try {
       const response = await axios.post(
         `${window.SERVER_URL}/api/v1/bill/create`,
@@ -55,7 +63,17 @@ function EditBill() {
       errorToaster(error.response.data.message);
     }
   };
-  
+
+  const handleChange = (index, field, value) => {
+    const items = [...getValues("items")];
+
+    const selectedProduct = products.find((p) => p._id === value);
+    items[index].product_id = value;
+    items[index].price = selectedProduct ? selectedProduct.amount : 0;
+    items[index].qty = 1; // Default quantity to 1 when product is selected
+    setValue("items", items);
+  };
+
   return (
     <>
       <Layout>
@@ -63,55 +81,36 @@ function EditBill() {
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={3}>
               <Grid size={{ sm: 12, md: 3 }}>
-                <TextField fullWidth id="outlined-basic" label="Bill Number" variant="outlined" {...register("bill_number", { required: { value: true, message: "Bill Number is required" } })} helperText={errors.bill_number ? errors.bill_number.message : ""} error={!!errors.bill_number} defaultValue={GenerateBillNumber()} />
+                <TextField fullWidth id="outlined-basic" label="Bill Number" variant="outlined" {...register("bill_number", { required: { value: true, message: "Bill Number is required" } })} helperText={errors.bill_number ? errors.bill_number.message : ""} error={!!errors.bill_number} />
               </Grid>
               <Grid size={{ sm: 12, md: 3 }}>
-                <TextField fullWidth id="outlined-basic" label="Date" variant="outlined" defaultValue={new Date().toLocaleDateString("en-GB")} />
+                <TextField fullWidth id="outlined-basic" label="Date" variant="outlined" {...register("date", { required: { value: true, message: "Date is required" } })} helperText={errors.date ? errors.date.message : ""} error={!!errors.date} />
               </Grid>
               <Grid size={{ sm: 12, md: 3 }}></Grid>
               <Grid size={{ sm: 12, md: 6 }}>
-                <TextField fullWidth id="outlined-basic" label="Customer Name" variant="outlined"/>
+                <TextField fullWidth id="outlined-basic" label="Customer Name" variant="outlined" {...register("customer_name", { required: { value: true, message: "Customer Name is required" } })} helperText={errors.customer_name ? errors.customer_name.message : ""} error={!!errors.customer_name} />
               </Grid>
-              {/* <Grid size={{ sm: 12, md: 6 }}>
-                <FormControl fullWidth sx={{ minWidth: 200 }}>
-                  <InputLabel id="demo-simple-select-helper-label">Select Product</InputLabel>
-                  <Select labelId="demo-simple-select-helper-label" id="demo-simple-select-helper" label="Select Product" defaultValue={0}  {...register("product_id", { required: { value: true, message: "Product is Required" } })}>
-                    <MenuItem value={0}>Select Product</MenuItem>
-                    {products.map((product) => {
-                      return <MenuItem value={product._id} key={product._id}>{product.name}</MenuItem>;
-                    })}
-                  </Select>
-                  {errors.product_id && <FormHelperText sx={{ color: "red" }}>{errors.product_id.message}</FormHelperText>}
-                </FormControl>
-              </Grid> */}
-              {/* <Grid size={{ sm: 12, md: 6 }}>
-                <TextField
-                  fullWidth
-                  id="outlined-basic"
-                  label="Quantity"
-                  variant="outlined"
-                  {...register("qty", { required: { value: true, message: "Quantity is required" }, pattern: { value: /^[0-9]+$/, message: "Only numbers are allowed" } })}
-                  helperText={errors.qty ? errors.qty.message : ""}
-                  error={!!errors.qty}
-                />
-              </Grid> */}
+
+              {/* Product Append */}
               <Grid size={{ sm: 12, md: 12 }}>
-                <Billing products={products} getTotal={getTotal} />
-              </Grid>
-
-              <Grid size={{ sm: 12, md: 9 }}></Grid> 
-
-              <Grid size={{ sm: 12, md: 3 }}>
-                <TextField fullWidth id="outlined-basic" label="Tax" variant="outlined" {...register("tax", { required: { value: true, message: "Bill Number is required" }, pattern: { value: /^[0-9]+$/, message: "Only numbers are allowed" } })} helperText={errors.tax ? errors.tax.message : ""} error={!!errors.tax} />
+                <CreateBillRows products={products} setGrandTotal={setGrandTotal} control={control} register={register} handleChange={handleChange} watch={watch} errors={errors} />
               </Grid>
 
               <Grid size={{ sm: 12, md: 9 }}></Grid>
 
               <Grid size={{ sm: 12, md: 3 }}>
-                <TextField fullWidth id="outlined-basic" value={total} label="Total Amount" variant="outlined" {...register("total_amount", { required: { value: true, message: "Bill Number is required" }, pattern: { value: /^[0-9]+$/, message: "Only numbers are allowed" } })} helperText={errors.total_amount ? errors.total_amount.message : ""} error={!!errors.total_amount} />
+                <TextField fullWidth label="Discount/Surcharge" type="number" variant="outlined" {...register("tax", { valueAsNumber: true })} />
+              </Grid>
+
+              <Grid size={{ sm: 12, md: 9 }}></Grid>
+
+              <Grid size={{ sm: 12, md: 3 }}>
+                <Typography variant="h6" gutterBottom>{`Total : ${grandTotal}`}</Typography>
               </Grid>
               <Grid size={{ sm: 12, md: 6 }}>
-                <Button variant="contained" type="submit">Save</Button>
+                <Button variant="contained" type="submit">
+                  Save
+                </Button>
                 <Link to="/bill">
                   <Button variant="contained" sx={{ m: 2, backgroundColor: "black" }}>
                     Back
@@ -126,4 +125,4 @@ function EditBill() {
   );
 }
 
-export default EditBill;
+export default CreateBill;

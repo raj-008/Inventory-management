@@ -3,7 +3,7 @@ import Backdrop from "@mui/material/Backdrop";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import PdfPrint from "./PdfPrint";
-import { Button, Box } from "@mui/material";
+import { Box } from "@mui/material";
 
 const style = {
   position: "absolute",
@@ -25,19 +25,7 @@ function BillDetails({ open, handleClose, billData }) {
   }
   return (
     <>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        slots={{ backdrop: Backdrop }}
-        slotProps={{
-          backdrop: {
-            timeout: 500,
-          },
-        }}
-      >
+      <Modal aria-labelledby="transition-modal-title" aria-describedby="transition-modal-description" open={open} onClose={handleClose} closeAfterTransition slots={{ backdrop: Backdrop }} slotProps={{ backdrop: { timeout: 500 }}}>
         <Fade in={open}>
             <Box sx={style}>
               <PdfPrint />

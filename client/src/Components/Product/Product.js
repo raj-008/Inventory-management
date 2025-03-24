@@ -35,10 +35,33 @@ const Product = () => {
 
   const tableColumns = productTableColumns(navigate, handleDelete);
 
+  const handleExcelImport = async (file, event) => {
+    try {
+      const formData = new FormData();
+      formData.append("excel", file);
+
+      const response = await axios.post(`${window.SERVER_URL}/api/v1/product/import`, formData, {
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "multipart/form-data",
+        }
+      });
+  
+      if (response.data.status) {
+        successToaster(response.data.message);
+        setRefreshKey((prev) => prev + 1);
+      }
+
+    } catch (error) {
+      errorToaster(error.response.data.message);
+    }
+    event.target.value = "";
+  };
+  
   return (
     <>
       <Layout>
-        <CustomTable tableData={products} tableColumns={tableColumns} actionButton={<ActionButton />} defultSortingColumn="7" />
+        <CustomTable tableData={products} tableColumns={tableColumns} actionButton={<ActionButton handleExcelImport={handleExcelImport} />} defultSortingColumn="7" />
       </Layout>
     </>
   );
