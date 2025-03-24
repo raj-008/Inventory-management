@@ -10,7 +10,7 @@ const PdfPrintComponent = ({ billData }) => {
   const { logOut, user } = useAuth();
 
   const handlePrint = useReactToPrint({ contentRef });
-  console.log(billData);
+
   const products = billData.billproducts;
 
   let subTotal = 0;
@@ -53,7 +53,7 @@ const PdfPrintComponent = ({ billData }) => {
                 {products.map((product, index) => (
                   <TableRow key={index}>
                     <TableCell>{product.product_name}</TableCell>
-                    <TableCell>{product.qty}</TableCell>
+                    <TableCell>{`${product.qty || 0}  ${product.unit}`}</TableCell>
                     <TableCell>${product.price}</TableCell>
                     <TableCell>${product.qty * product.price}</TableCell>
                   </TableRow>

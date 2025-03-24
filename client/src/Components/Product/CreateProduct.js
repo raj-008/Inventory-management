@@ -18,12 +18,17 @@ import { useNavigate } from "react-router-dom";
 import useFetchData from "../../hooks/useFetchData";
 
 function CreateProduct() {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, reset, formState: { errors }} = useForm({
+    defaultValues: {
+      name: "",
+      category_id: "",
+      brand_id: "",
+      qty: 0,
+      amount: 0,
+      unit : "",
+      description : "",
+    }
+  });
 
   const { token } = useAuth();
 
@@ -122,7 +127,7 @@ function CreateProduct() {
                   fullWidth
                   label="Quantity / Stock"
                   variant="outlined"
-                  {...register("qty", { required: { value: true, message: "Quantity  is required" }, pattern: { value: /^[0-9]+$/, message: "Only numbers are allowed" } })}
+                  {...register("qty", { required: { value: true, message: "Quantity  is required" }, pattern: { value: /^[0-9]+$/, message: "Only numbers are allowed" }, min: { value: 1, message: "Quantity is invalid" } })}
                   helperText={errors.qty ? errors.qty.message : ""}
                   error={!!errors.qty}
                 />
@@ -132,7 +137,7 @@ function CreateProduct() {
                   fullWidth
                   label="Price"
                   variant="outlined"
-                  {...register("amount", { required: { value: true, message: "Price  is required" }, pattern: { value: /^[0-9]+$/, message: "Only numbers are allowed" } })}
+                  {...register("amount", { required: { value: true, message: "Price  is required" }, pattern: { value: /^[0-9]+$/, message: "Only numbers are allowed" }, min: { value: 1, message: "Amount is invalid"} })}
                   helperText={errors.amount ? errors.amount.message : ""}
                   error={!!errors.amount}
                 />

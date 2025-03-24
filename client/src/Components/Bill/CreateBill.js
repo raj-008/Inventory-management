@@ -44,6 +44,8 @@ function CreateBill() {
     const [day, month, year] = data.date.split("-");
     data.date = new Date(`${year}-${month}-${day}T00:00:00Z`);
 
+    if(!data.tax) data.tax = 0;
+
     try {
       const response = await axios.post(
         `${window.SERVER_URL}/api/v1/bill/create`,

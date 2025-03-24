@@ -177,7 +177,7 @@ const Dashboard = () => {
                   </Typography>
 
                   <Typography sx={{ mb: 1 }} style={{ fontWeight: 500 }} color="text.secondary">
-                    ${totalSale}
+                    ${totalSale || 0}
                   </Typography>
                 </CardContent>
               </Card>
@@ -202,7 +202,7 @@ const Dashboard = () => {
                   </Typography>
 
                   <Typography sx={{ mb: 1 }} style={{ fontWeight: 500 }} color="text.secondary">
-                    {totalBillCount}
+                    {totalBillCount || 0}
                   </Typography>
                 </CardContent>
               </Card>
@@ -227,7 +227,7 @@ const Dashboard = () => {
                   </Typography>
 
                   <Typography sx={{ mb: 1 }} style={{ fontWeight: 500 }} color="text.secondary">
-                    {dashboardData.totalCategories}
+                    {dashboardData.totalCategories || 0}
                   </Typography>
                 </CardContent>
               </Card>
@@ -252,7 +252,7 @@ const Dashboard = () => {
                   </Typography>
 
                   <Typography sx={{ mb: 1 }} style={{ fontWeight: 500 }} color="text.secondary">
-                    {dashboardData.totalBrands}
+                    {dashboardData.totalBrands || 0}
                   </Typography>
                 </CardContent>
               </Card>

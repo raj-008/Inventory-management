@@ -33,12 +33,17 @@ function EditProduct() {
   const [brandData, brandError, brandLoading] = useFetchData(`${window.SERVER_URL}/api/v1/brand`, 0);
   const brands = brandData?.data || [];
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, reset, formState: { errors }} = useForm({
+    defaultValues: {
+      name: "",
+      category_id: "",
+      brand_id: "",
+      qty: 0,
+      amount: 0,
+      unit : "",
+      description : "",
+    },
+  });
 
   useEffect(() => {
     if (product) {
@@ -55,6 +60,10 @@ function EditProduct() {
   }, [product, reset]);
 
   const onSubmit = async (data) => {
+
+    if(!data.category_id) data.category_id = "";
+    if(!data.brand_id) data.brand_id = "";
+    
     try {
       const response = await axios.post(
         `${window.SERVER_URL}/api/v1/product/update/` + id,
