@@ -11,23 +11,33 @@ import GrainRoundedIcon from "@mui/icons-material/GrainRounded";
 import BusinessRoundedIcon from "@mui/icons-material/BusinessRounded";
 import Chart from "chart.js/auto";
 import useFetchData from "../../hooks/useFetchData";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Dashboard = () => {
   const [refreshKey, setRefreshKey] = useState(0);
   const [data, error, loading] = useFetchData(`${window.SERVER_URL}/api/v1/dashboard`, refreshKey);
   const dashboardData = data.data || [];
+
   let totalSale = 0;
   let monthlySaleData = [];
+  let totalBillCount = 0;
+  let pieChartLabels = [];
+  let pieChartData = [];
   if (dashboardData.productsData) {
+    totalBillCount = dashboardData.productsData.totalBillCount;
     totalSale = dashboardData.productsData.totalSale;
     monthlySaleData = dashboardData.productsData.monthlySale;
+    dashboardData.categorySales.forEach(el => {
+      pieChartLabels.push(el.category_name);
+      pieChartData.push(el.category_wise_total_sale);
+      
+    });
   }
 
   const lineChartRef = useRef(null);
   const pieChartRef = useRef(null);
 
   useEffect(() => {
-    
     const monthMapping = {
       1: "Jan",
       2: "Feb",
@@ -51,10 +61,8 @@ const Dashboard = () => {
         lineChartRef.current.destroy();
       }
 
-      if(!monthlySaleData) monthlySaleData = [];
+      if (!monthlySaleData) monthlySaleData = [];
 
-
-      // monthlySaleData = [1000,20000,30000,40000];
       lineChartRef.current = new Chart(lineCtx, {
         type: "line",
         data: {
@@ -69,23 +77,23 @@ const Dashboard = () => {
       });
     }
 
-    // Cleanup function
     return () => {
       if (lineChartRef.current) {
         lineChartRef.current.destroy();
       }
     };
-    // End Line Chart
+    
   }, [dashboardData]);
+  // End Line Chart
 
+  // Start Pie Chart
   useEffect(() => {
-    // Start Pie Chart
     const pieData = {
-      labels: ["Cosmetics", "Medicine", "Ayurvedik"],
+      labels: pieChartLabels,
       datasets: [
         {
-          data: [300, 50, 100],
-          backgroundColor: ["rgb(255, 99, 132)", "rgb(54, 162, 235)", "rgb(255, 205, 86)"],
+          data: pieChartData,
+          backgroundColor: ["rgb(255, 99, 132)", "rgb(54, 162, 235)", "rgb(255, 205, 86)", "rgb(0, 153, 51)", "rgb(0, 0, 102)", "rgb(153, 51, 153)", "rgb(255, 153, 51)", "rgb(0, 153, 153)"],
           hoverOffset: 4,
         },
       ],
@@ -136,11 +144,15 @@ const Dashboard = () => {
         pieChartRef.current.destroy();
       }
     };
-    // End Pie Chart
   }, [dashboardData]);
+  // End Pie Chart
 
   if (loading) {
-    return;
+    return (
+      <Box elevation={0} style={{ padding: "32px", textAlign: "center" }}>
+        <CircularProgress size="3rem" />
+      </Box>
+    );
   }
 
   return (
@@ -190,7 +202,7 @@ const Dashboard = () => {
                   </Typography>
 
                   <Typography sx={{ mb: 1 }} style={{ fontWeight: 500 }} color="text.secondary">
-                    5000000
+                    {totalBillCount}
                   </Typography>
                 </CardContent>
               </Card>
