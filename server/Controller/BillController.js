@@ -133,6 +133,11 @@ exports.getBillDeatils = asyncErrorHandler(async (req, res) => {
               product: {
                 $arrayElemAt: ["$products", { $indexOfArray: ["$products._id", "$$bp.product_id"] }],
               },
+              product_name: {
+                  $getField: { field: "name", input: { 
+                      $arrayElemAt: ["$products", { $indexOfArray: ["$products._id", "$$bp.product_id"] }]
+                  }}
+              }
             },
           },
         },
@@ -143,6 +148,7 @@ exports.getBillDeatils = asyncErrorHandler(async (req, res) => {
         "billproducts.product_id": 1,
         "billproducts.qty": 1,
         "billproducts.price": 1,
+        "billproducts.product_name": 1, 
         customer_name: 1,
         date: 1,
         bill_number: 1,

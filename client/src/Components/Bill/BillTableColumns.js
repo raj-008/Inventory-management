@@ -16,6 +16,12 @@ const billTableColumns = (navigate, handleClose, handleOpen, handleDelete) => [
     sortable: true,
   },
   {
+    name: "Name",
+    selector: (row) => row.customer_name,
+    searchable: true,
+    sortable: true,
+  },
+  {
     name: "Bill Amount",
     selector: (row) => "$" + row.total_amount,
     sortable: true,

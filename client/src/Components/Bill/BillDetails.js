@@ -28,7 +28,7 @@ function BillDetails({ open, handleClose, billData }) {
       <Modal aria-labelledby="transition-modal-title" aria-describedby="transition-modal-description" open={open} onClose={handleClose} closeAfterTransition slots={{ backdrop: Backdrop }} slotProps={{ backdrop: { timeout: 500 }}}>
         <Fade in={open}>
             <Box sx={style}>
-              <PdfPrint />
+              <PdfPrint billData={billData} />
             </Box>
         </Fade>
       </Modal>

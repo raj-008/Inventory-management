@@ -56,7 +56,7 @@ function Bill() {
   return (
     <>
       <Layout>
-        <CustomTable tableData={bills} tableColumns={tableColumns} actionButton={<ActionButton />} defultSortingColumn="5" />
+        <CustomTable tableData={bills} tableColumns={tableColumns} actionButton={<ActionButton />} defultSortingColumn="4" />
         <BillDetails open={open} handleClose={handleClose} billData={billData} />
       </Layout>
     </>
