@@ -11,6 +11,7 @@ const ProductSchema = mongoose.Schema(
     description: { type: String },
     category_id: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
     brand_id: { type: mongoose.Schema.Types.ObjectId, ref: "Brand" },
+    user_id : { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }
   },
   {
     timestamps: true,

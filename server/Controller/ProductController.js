@@ -9,9 +9,17 @@ const Brand = require("../Models/BrandModel");
 const Category = require("../Models/CategoryModel");
 const path = require("path");
 const { ObjectId } = mongoose.Types;
+const GetLoggedInUser = require("../Utils/GetLoggedInUser");
 
 exports.read = asyncErrorHandler(async (req, res) => {
+
+  const user = await GetLoggedInUser(req);
+  const userId = user._id;
+
   const products = await Product.aggregate([
+    {
+      $match: { user_id: userId } 
+    },
     {
       $lookup: {
         from: "categories",
@@ -81,11 +89,14 @@ exports.import = asyncErrorHandler(async (req, res) => {
   const sheetName = workbook.SheetNames[0];
   const jsonData = xlsx.utils.sheet_to_json(workbook.Sheets[sheetName]);
 
+  const user = await GetLoggedInUser(req);
+  const userId = user._id;
+
   resData = [];
 
   for(const data of jsonData) {
-
-    const {["Product Name"]: productName, Category: category,Brand: brand,Quantity: qty, Price: price, Unit: unit, Description: description} = data;  // convert Column name to field name
+   
+    const {["Product Name"]: productName, Category: category, Brand: brand, Quantity: qty, Price: price, Unit: unit, Description: description} = data;  // convert Column name to field name
 
     if(productName == "" || category == "" || brand == "" || qty == "" || price == "") continue;
 
@@ -95,8 +106,10 @@ exports.import = asyncErrorHandler(async (req, res) => {
     const categoryData = await Category.findOne({ name: category });
     if(!categoryData) continue;
     
-    await Product.create({name : productName, qty :  qty, unit : unit, amount :  price, description : description, category_id : categoryData._id, brand_id : brandData._id, });
-    
+    await Product.create({name : productName, qty :  qty, unit : unit, amount :  price, description : description, category_id : categoryData._id, brand_id : brandData._id, user_id : userId });
+
+    data.user_id = userId; // append user_id in returned data
+
     resData.push(data);
   }
 
@@ -106,7 +119,13 @@ exports.import = asyncErrorHandler(async (req, res) => {
 exports.create = asyncErrorHandler(async (req, res) => {
   ValidationErrorHandler(req);
 
-  const product = await Product.create(req.body);
+  const user = await GetLoggedInUser(req);
+  const userId = user._id;
+
+  const input = req.body;
+  input.user_id = userId;
+
+  const product = await Product.create(input);
 
   return sendResponse(res, "Product Created Successfully", product);
 });

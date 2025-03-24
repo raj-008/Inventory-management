@@ -7,10 +7,17 @@ const CustomError = require("../Utils/CustomError");
 const BillProduct = require("../Models/BillProductModel");
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Types;
+const GetLoggedInUser = require("../Utils/GetLoggedInUser");
 
 exports.read = asyncErrorHandler(async (req, res) => {
-  
+
+  const user = await GetLoggedInUser(req);
+  const userId = user._id;
+
   const bills = await Bill.aggregate([
+    {
+      $match: { user_id: userId } 
+    },
     {
       $lookup: {
         from: "billproducts",
@@ -134,10 +141,13 @@ exports.getBillDeatils = asyncErrorHandler(async (req, res) => {
                 $arrayElemAt: ["$products", { $indexOfArray: ["$products._id", "$$bp.product_id"] }],
               },
               product_name: {
-                  $getField: { field: "name", input: { 
-                      $arrayElemAt: ["$products", { $indexOfArray: ["$products._id", "$$bp.product_id"] }]
-                  }}
-              }
+                $getField: {
+                  field: "name",
+                  input: {
+                    $arrayElemAt: ["$products", { $indexOfArray: ["$products._id", "$$bp.product_id"] }],
+                  },
+                },
+              },
             },
           },
         },
@@ -148,7 +158,7 @@ exports.getBillDeatils = asyncErrorHandler(async (req, res) => {
         "billproducts.product_id": 1,
         "billproducts.qty": 1,
         "billproducts.price": 1,
-        "billproducts.product_name": 1, 
+        "billproducts.product_name": 1,
         customer_name: 1,
         date: 1,
         bill_number: 1,
@@ -168,6 +178,9 @@ exports.getBillDeatils = asyncErrorHandler(async (req, res) => {
 exports.create = asyncErrorHandler(async (req, res, next) => {
   ValidationErrorHandler(req);
 
+  const user = await GetLoggedInUser(req);
+  const userId = user.id;
+
   const isBillNumberExist = await Bill.exists({ bill_number: req.body.bill_number });
 
   if (isBillNumberExist) {
@@ -175,6 +188,7 @@ exports.create = asyncErrorHandler(async (req, res, next) => {
   }
 
   const input = req.body;
+  input.user_id = userId;
 
   const bill = await Bill.create(input);
 

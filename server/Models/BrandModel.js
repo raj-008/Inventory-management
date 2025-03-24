@@ -4,8 +4,9 @@ dotenv.config();
 
 const BrandSchema = mongoose.Schema(
   {
-    name: { type: String, required: true, index: { unique: true } },
+    name: { type: String, required: true },
     status: { type: Boolean, required: true, default: true },
+    user_id : { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }
   },
   { timestamps: true, versionKey: false }
 );

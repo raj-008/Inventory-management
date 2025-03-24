@@ -4,12 +4,20 @@ const Bill = require("../Models/BillModel");
 const Category = require("../Models/CategoryModel");
 const Brand = require("../Models/BrandModel");
 const BillProduct = require("../Models/BillProductModel");
+const GetLoggedInUser = require("../Utils/GetLoggedInUser");
 
 exports.dashboardData = asyncErrorHandler(async (req, res) => {
-  const totalCategories = await Category.countDocuments();
-  const totalBrands = await Brand.countDocuments();
+
+  const user = await GetLoggedInUser(req);
+  const userId = user._id;
+
+  const totalCategories = await Category.countDocuments({ user_id : userId });
+  const totalBrands = await Brand.countDocuments({ user_id : userId });
 
   const products = await Bill.aggregate([
+    {
+      $match: { user_id: userId } 
+    },
     {
       $group: {
         _id: { $concat: { $toString: { $month: "$date" } } },
@@ -36,6 +44,9 @@ exports.dashboardData = asyncErrorHandler(async (req, res) => {
   ]);
 
   const categorySales = await BillProduct.aggregate([
+    {
+      $match: { user_id: userId } 
+    },
     {
       $lookup: {
         from: "products", // Join with Product collection to get category details
@@ -71,9 +82,6 @@ exports.dashboardData = asyncErrorHandler(async (req, res) => {
       },
     },
   ]);
-  
-  console.log(categorySales);
-  
   
   let data = {
     totalCategories: totalCategories,
