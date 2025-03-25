@@ -46,9 +46,10 @@ exports.read = asyncErrorHandler(async (req, res) => {
 
 exports.update = asyncErrorHandler(async (req, res) => {
   const { id, ...rest } = req.body;
-  const data = await User.updateOne({ _id: id }, rest);
+  
+  const user = await User.findOneAndUpdate({ _id: id }, rest, { new: true, });
 
-  return sendResponse(res, "Data updated successfully", data);
+  return sendResponse(res, "Profile updated successfully", user);
 });
 
 exports.delete = asyncErrorHandler(async (req, res) => {

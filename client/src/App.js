@@ -21,6 +21,7 @@ import PageNotFound from "./Components/ErrorPage/PageNotFound";
 import CreateBill from "./Components/Bill/CreateBill";
 import CreateProduct from "./Components/Product/CreateProduct";
 import VerifyEmail from "./Components/Register/VeifyEmail";
+import Profile from "./Components/Profile/Profile";
 
 const App = () => {
   window.SERVER_URL = "http://localhost:9000";
@@ -45,6 +46,7 @@ const App = () => {
                 <Route path="/product" element={<Product />} />
                 <Route path="/product/create" element={<CreateProduct />} />
                 <Route path="/product/edit/:id" element={<ProductEdit />} />
+                <Route path="/profile" element={<Profile />} />
               </Route>
 
               {/* <Route element={<AdminProtectedRoute />}> */}

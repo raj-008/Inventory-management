@@ -29,6 +29,7 @@ import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import BubbleChartIcon from "@mui/icons-material/BubbleChart";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import { useAuth } from "../../Context/AuthContext";
+import PersonIcon from '@mui/icons-material/Person';
 
 const drawerWidth = 240;
 const openedMixin = (theme) => ({
@@ -159,9 +160,14 @@ export default function Layout({ children }) {
     case "/bill/edit":
       pageTitle = "Edit Bill";
       break;
+    case "/profile":
+      pageTitle = "Profile";
+      break;
     default:
       pageTitle = "Inventory";
   }
+
+  const company = JSON.parse(localStorage.getItem('user')).company || user.company;
 
   return (
     <>
@@ -183,7 +189,7 @@ export default function Layout({ children }) {
               </div>
 
               <Typography variant="h6" noWrap component="div" className="header-title">
-                {user.company}
+                {company}
               </Typography>
             </div>
           </Toolbar>
@@ -250,6 +256,16 @@ export default function Layout({ children }) {
                         <InventoryIcon />
                       </ListItemIcon>
                       <ListItemText primary="Product" sx={{ opacity: open ? 1 : 0 }} />
+                    </ListItemButton>
+                  </ListItem>
+                </Link>
+                <Link to="/profile" className="sidebar-link">
+                  <ListItem key="Profile" disablePadding sx={{ display: "block" }} className={location.pathname === "/settings" ? "active-nav" : ""}>
+                    <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
+                      <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
+                        <PersonIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Profile" sx={{ opacity: open ? 1 : 0 }} />
                     </ListItemButton>
                   </ListItem>
                 </Link>
