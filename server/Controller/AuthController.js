@@ -9,6 +9,7 @@ const { sendResponse } = require("../Utils/ResponseUtils");
 const CustomError = require("./../Utils/CustomError");
 const util = require("util");
 const ValidationErrorHandler = require("../Validation/ValidationErrorHandler");
+const emailVerificationMail = require("../Utils/EmailVerificationMail");
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.SECRET_KEY, {
@@ -26,6 +27,14 @@ exports.login = asyncErrorHandler(async (req, res, next) => {
   }
 
   const user = await User.findOne({ email }).select("+password");
+  const userId = user._id;
+
+  if (!user.status) {
+    const token = signToken(user._id);
+    const reciver = user.email;
+    emailVerificationMail(token, reciver, userId);
+    throw new CustomError("Please verify your email,  A verification mail sent to your registerd email", 401);
+  }
 
   if (!user || !(await user.comparePasswordInDb(password, user.password))) {
     const error = new CustomError("Please try again with the correct credentials", 401);
@@ -51,15 +60,14 @@ exports.forgotPassword = asyncErrorHandler(async (req, res, next) => {
   const token = signToken(user._id);
 
   if (resetToken) {
-    const updateResult = await PasswordResetToken.updateOne({ user_id: user._id.toString() }, { $set: { token: token } });
-    console.log(updateResult);
+    await PasswordResetToken.updateOne({ user_id: user._id.toString() }, { $set: { token: token } });
   } else {
-    const data = PasswordResetToken.create({ user_id: user._id, token: token, expired_at: new Date(Date.now() + 1000 * 60 * 10) });
+    await PasswordResetToken.create({ user_id: user._id, token: token, expired_at: new Date(Date.now() + 1000 * 60 * 10) });
   }
 
   sendResetPasswordMail(token, user.email, user._id);
 
-  res.status(200).json({ status: 200, success: true, message: "Email sent successfully to the registered mail !", data: user });
+  res.status(200).json({ status: 200, success: true, message: "Reset password link sent to your registered mail !", data: user });
 });
 
 exports.resetPassword = asyncErrorHandler(async (req, res, next) => {
@@ -68,6 +76,11 @@ exports.resetPassword = asyncErrorHandler(async (req, res, next) => {
   const { token, password, userId } = req.body;
 
   const userData = await PasswordResetToken.findOne({ user_id: userId }).limit(1).sort({ $natural: -1 });
+
+  if (!userData) {
+    const error = new CustomError("Something went wrong, Please Try again !", 500);
+    return next(error);
+  }
 
   if (userData.token != token) {
     const error = new CustomError("Invalid token !", 401);
@@ -101,12 +114,12 @@ const sendResetPasswordMail = (token, receiver, userId) => {
   });
 
   let mailOptions = {
-    from: "your-email@example.com",
-    to: "recipient@example.com",
-    subject: "Test Email",
+    from: process.env.MAIL_FROM,
+    to: receiver,
+    subject: "Password Reset Mail From Inventory",
     text: "This is a test email sent using Nodemailer with Mailtrap.",
     html: `<p>You requested a password reset</p>
-      <p>Click this <a href="http://localhost:3000/reset-password/${token}/${userId}">link</a> to set a new password.</p>`,
+      <p>Click this <a href="${process.env.FRONT_URL}/reset-password/${token}/${userId}">link</a> to set a new password.</p>`,
   };
 
   transporter.sendMail(mailOptions, function (error, info) {

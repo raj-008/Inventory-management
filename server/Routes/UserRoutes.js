@@ -8,5 +8,6 @@ router.put("/update",AuthController.protect, UsersController.update);
 router.delete("/delete/:id", AuthController.protect, AuthController.checkRole("admin"), UsersController.delete);
 router.post("/forgot-password", AuthController.forgotPassword);
 router.post("/reset-password", resetPassword(), AuthController.resetPassword);
+router.post("/verify-email", UsersController.verifyEmail);
 
 module.exports = router;

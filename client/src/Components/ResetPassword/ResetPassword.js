@@ -63,7 +63,7 @@ const Register = () => {
         userId: userId,
       });
 
-      if (response.data.success) {
+      if (response.data.statusCode === 200) {
         window.location.href = "/login";
         toast.success(response.data.message, {
           position: "top-center",

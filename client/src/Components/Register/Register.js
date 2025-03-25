@@ -13,10 +13,9 @@ import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { Link, resolvePath } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import FormHelperText from "@mui/material/FormHelperText";
 
@@ -41,12 +40,7 @@ const Register = () => {
     event.preventDefault();
   };
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, watch, formState: { errors }} = useForm();
 
   const password = watch("password", "");
 
@@ -54,10 +48,8 @@ const Register = () => {
     try {
       const response = await axios.post(`${window.SERVER_URL}/api/v1/register`, { fname, lname, company, phone, email, password, cpassword });
 
-      console.log();
-
       if (response.data.status) {
-        toast.success("Registration Successfully done 😃!", {
+        toast.success("Registration Successful, We have sent you verification email 😃!", {
           position: "top-center",
         });
       }

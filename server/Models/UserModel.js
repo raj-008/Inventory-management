@@ -14,7 +14,7 @@ const UserSchema = mongoose.Schema(
     company: { type: String, required: true },
     password: { type: String, required: true, select: false },
     role: { type: String, enum: ["user", "admin"], default: "user" },
-    status: { type: Boolean, default: 1 },
+    status: { type: Boolean, default: 0 },
   },
   { timestamps: true, versionKey: false }
 );

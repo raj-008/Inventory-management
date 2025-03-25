@@ -13,7 +13,6 @@ import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -30,11 +29,7 @@ const Login = () => {
     event.preventDefault();
   };
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, formState: { errors }} = useForm();
 
   const onSubmit = async ({ email, password }) => {
     user.loginAction({ email, password });

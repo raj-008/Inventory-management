@@ -52,26 +52,11 @@ const Login = () => {
       <Grid container direction="column" alignItems="center" justifyContent="center" sx={{ minHeight: "100vh" }}>
         <Card variant="outlined" sx={{ width: { xs: "95%", sm: "80%", md: "50%", lg: "30%" } }}>
           <CardContent sx={{ width: "100%" }}>
-            <Typography
-              variant="h6"
-              style={{
-                textAlign: "center",
-                paddingBottom: "22px",
-              }}
-              color="text.secondary"
-              gutterBottom
-            >
+            <Typography variant="h6" style={{ textAlign: "center", paddingBottom: "22px"}} color="text.secondary" gutterBottom>
               Forgot Password ?
             </Typography>
 
-            <Typography
-              style={{
-                textAlign: "center",
-                marginBottom: "22px",
-              }}
-              color="text.secondary"
-              gutterBottom
-            >
+            <Typography style={{ textAlign: "center", marginBottom: "22px"}} color="text.secondary" gutterBottom>
               We will send you verification email to verify your account
             </Typography>
 

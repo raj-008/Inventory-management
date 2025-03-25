@@ -15,13 +15,12 @@ import EditBill from "./Components/Bill/EditBill";
 import BillDetails from "./Components/Bill/BillDetails";
 import ProductEdit from "./Components/Product/EditProduct";
 import User from "./Components/Admin/Users/Users";
-import Settings from "./Components/Admin/Settings/Settings";
 import UserProtectedRoute from "./Components/UserProtectedRoute";
 import AuthProvider from "./Context/AuthContext";
-import AdminProtectedRoute from "./Components/AdminProtectedRoute";
 import PageNotFound from "./Components/ErrorPage/PageNotFound";
 import CreateBill from "./Components/Bill/CreateBill";
 import CreateProduct from "./Components/Product/CreateProduct";
+import VerifyEmail from "./Components/Register/VeifyEmail";
 
 const App = () => {
   window.SERVER_URL = "http://localhost:9000";
@@ -57,6 +56,7 @@ const App = () => {
               <Route path="/login" element={<Login />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/reset-password/:token/:userId" element={<ResetPassword />} />
+              <Route path="/verify-email/:token/:userId" element={<VerifyEmail />} />
               <Route path="*" element={<PageNotFound />} />
             </Routes>
           </AuthProvider>
