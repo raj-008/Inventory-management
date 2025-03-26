@@ -45,7 +45,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          <div className="row">Stockventri Copyright © 2021 Stockventri - All rights reserved</div>
+          <div className="row">StockVenture Copyright © {(new Date().getFullYear())} | StockVenture - All rights reserved</div>
         </div>
       </footer>
     </>

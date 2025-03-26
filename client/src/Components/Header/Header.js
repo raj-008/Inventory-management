@@ -63,7 +63,7 @@ function Header(props) {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" className="app-title" sx={{ my: 2 }}>
-        Stockventri
+      StockVenture
       </Typography>
       <Divider />
       <List>
@@ -129,7 +129,7 @@ function Header(props) {
             </IconButton>
             <img src="stockventri-logo.png" className="app-logo" alt="app_logo" />
             <Typography variant="h6" component="div" sx={{ flexGrow: 1, display: { xs: "none", sm: "block" }, color: "#000000" }}>
-              Stockventri
+              StockVenture
             </Typography>
             <Box sx={{ display: { xs: "none", sm: "block" } }}>
               <ScrollableLink to="home" smooth={true} duration={500}>

@@ -90,7 +90,7 @@ textarea:focus {
 }
 
 .contact-item:hover svg {
-  color: #333399; /* Change color of the icon on hover */
+  color: #999999; /* Change color of the icon on hover */
 }
 
 .form-container {

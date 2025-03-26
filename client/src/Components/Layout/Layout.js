@@ -197,7 +197,7 @@ export default function Layout({ children }) {
         <Drawer variant="permanent" open={open}>
           <DrawerHeader className="sidebar sidebar-header" style={{ background: "#003399" }}>
             <div className="sidebar-logo" style={{ color: "white" }}>
-              LOGO
+              StockVenture  
             </div>
             <IconButton onClick={handleDrawerClose} style={{ color: "black" }}>
               {theme.direction === "rtl" ? <ChevronRightIcon style={{ color: "white" }} /> : <ChevronLeftIcon style={{ color: "white" }} />}
