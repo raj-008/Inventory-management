@@ -2,7 +2,7 @@ import { React } from "react";
 import Layout from "../Layout/Layout";
 import CustomTable from "../Custom/CustomTable";
 import BrandModal from "./BrandModal";
-import brandTableColumns, { ActionButton } from "../../Components/Brands/BrandTableColumns";
+import brandTableColumns, { ActionButton } from "./BrandTableColumns";
 import { useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";

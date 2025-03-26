@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import { useAuth } from "../Context/AuthContext";
-import Forbidden from "../Components/ErrorPage/Forbidden";
+import Forbidden from "./ErrorPage/Forbidden";
 
 const AdminProtectedRoute = () => {
   const user = useAuth();

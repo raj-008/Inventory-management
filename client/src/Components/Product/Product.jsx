@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Layout from "../Layout/Layout";
 import CustomTable from "../Custom/CustomTable";
-import productTableColumns, { ActionButton } from "../../Components/Product/ProductTableColumns";
+import productTableColumns, { ActionButton } from "./ProductTableColumns";
 import useFetchData from "../../hooks/useFetchData";
 import { useNavigate } from "react-router-dom";
 import { errorToaster, successToaster } from "../../Utils/Toasters.utils";

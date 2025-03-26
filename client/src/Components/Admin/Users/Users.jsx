@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Layout from "../../Layout/Layout";
 import CustomTable from "../../Custom/CustomTable";
-import userTableColumns from "../../Admin/Users/UserTableColumns";
+import userTableColumns from "./UserTableColumns";
 import useFetchData from "../../../hooks/useFetchData";
 
 const User = () => {

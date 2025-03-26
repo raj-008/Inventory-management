@@ -50,8 +50,8 @@ const App = () => {
               </Route>
 
               {/* <Route element={<AdminProtectedRoute />}> */}
-                <Route path="/admin/dashboard" element={<User />} />
-                {/* <Route path="/admin/settings" element={<Settings />} /> */}
+              <Route path="/admin/dashboard" element={<User />} />
+              {/* <Route path="/admin/settings" element={<Settings />} /> */}
               {/* </Route> */}
 
               <Route path="/register" element={<Register />} />

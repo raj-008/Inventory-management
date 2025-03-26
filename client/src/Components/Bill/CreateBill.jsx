@@ -12,7 +12,7 @@ import GenerateBillNumber from "../../Utils/GenerateBillNumber";
 import axios from "axios";
 import { errorToaster, successToaster } from "../../Utils/Toasters.utils";
 import { useNavigate } from "react-router-dom";
-import CreateBillRows from "../Bill/CreateBillRows";
+import CreateBillRows from "./CreateBillRows";
 
 function CreateBill() {
   const { register, handleSubmit, watch, setValue, getValues, control, formState: { errors }} = useForm({
