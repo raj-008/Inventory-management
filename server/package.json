@@ -4,8 +4,7 @@
   "description": "Backend of inventory management system",
   "main": "server.js",
   "scripts": {
-    "start": "SET NODE_ENV=development& node server.js",
-    "prod": "SET NODE_ENV=production& node server.js"
+    "start": "node server.js"
   },
   "author": "Raj Shingala",
   "license": "ISC",
