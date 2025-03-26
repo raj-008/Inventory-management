@@ -43,50 +43,60 @@ exports.dashboardData = asyncErrorHandler(async (req, res) => {
     },
   ]);
 
-  const categorySales = await BillProduct.aggregate([
-    {
-      $match: { user_id: userId } 
+
+const userCategorySales = await Bill.aggregate([
+  {
+    $match: { user_id: userId }
+  },
+  {
+    $lookup: {
+      from: "billproducts", 
+      localField: "_id",
+      foreignField: "bill_id",
+      as: "billProducts",
     },
-    {
-      $lookup: {
-        from: "products", // Join with Product collection to get category details
-        localField: "product_id",
-        foreignField: "_id",
-        as: "productDetails",
-      },
+  },
+  { $unwind: "$billProducts" }, 
+  {
+    $lookup: {
+      from: "products", 
+      localField: "billProducts.product_id",
+      foreignField: "_id",
+      as: "productDetails",
     },
-    { $unwind: "$productDetails" }, // Expand product details
-    {
-      $lookup: {
-        from: "categories", // Join with Category collection to get category names
-        localField: "productDetails.category_id",
-        foreignField: "_id",
-        as: "categoryDetails",
-      },
+  },
+  { $unwind: "$productDetails" }, 
+  {
+    $lookup: {
+      from: "categories", 
+      localField: "productDetails.category_id",
+      foreignField: "_id",
+      as: "categoryDetails",
     },
-    { $unwind: "$categoryDetails" }, // Expand category details
-    {
-      $group: {
-        _id: "$categoryDetails.name", // Group by category name
-        category_wise_total_sale: { $sum: { $multiply: ["$price", "$qty"] } }, // Sum total sale per category
-      },
+  },
+  { $unwind: "$categoryDetails" },
+  {
+    $group: {
+      _id: "$categoryDetails.name", // Group by category only
+      category_wise_total_sale: { $sum: { $multiply: ["$billProducts.price", "$billProducts.qty"] } }, // Sum total sale per category
     },
-    {
-      $sort: { category_wise_total_sale: -1 } // Sorting in descending order
+  },
+  {
+    $sort: { "category_wise_total_sale": -1 } // Sort by total sales in descending order
+  },
+  {
+    $project: {
+      _id: 0,
+      category_name: "$_id",
+      category_wise_total_sale: 1,
     },
-    {
-      $project: {
-        _id: 0,
-        category_name: "$_id",
-        category_wise_total_sale: 1,
-      },
-    },
-  ]);
+  },
+]);
   
   let data = {
     totalCategories: totalCategories,
     totalBrands: totalBrands,
-    categorySales : categorySales,
+    categorySales : userCategorySales,
   };
 
   if (products.length) {
