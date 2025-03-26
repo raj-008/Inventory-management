@@ -24,7 +24,7 @@ import VerifyEmail from "./Components/Register/VeifyEmail";
 import Profile from "./Components/Profile/Profile";
 
 const App = () => {
-  window.SERVER_URL = "http://localhost:9000";
+  window.SERVER_URL = import.meta.env.VITE_API_URL;
 
   return (
     <>
