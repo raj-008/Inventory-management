@@ -14,6 +14,10 @@ const UsersController = require("../Controller/UserController");
 const AdminUserRoutes = require("../Routes/Admin/UserRoutes");
 const AdminSettingRoutes = require("../Routes/Admin/SettingRoutes");
 
+router.get("/test-backend", (req, res) => {
+    res.send("Hii, Welcome to inventory");
+});
+
 router.post("/login", loginValidation(), AuthController.login);
 router.post("/register", RegisterValidation(), UsersController.create);
 
