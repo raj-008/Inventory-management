@@ -27,6 +27,9 @@ exports.login = asyncErrorHandler(async (req, res, next) => {
   }
 
   const user = await User.findOne({ email }).select("+password");
+
+  if(!user) throw new CustomError("This email is not associated with us, Please register to continue");
+
   const userId = user._id;
 
   if (!user.status) {
