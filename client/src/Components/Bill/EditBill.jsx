@@ -117,39 +117,47 @@ function EditBill() {
         <Paper elevation={0} style={{ padding: "32px" }}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={3}>
-              <Grid size={{ sm: 12, md: 3 }}>
+              <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                 <TextField fullWidth id="outlined-basic" label="Bill Number" variant="outlined" {...register("bill_number", { required: { value: true, message: "Bill Number is required" } })} helperText={errors.bill_number ? errors.bill_number.message : ""} error={!!errors.bill_number} disabled />
               </Grid>
-              <Grid size={{ sm: 12, md: 3 }}>
+              <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                 <TextField fullWidth label="Date" variant="outlined" {...register("date", { required: { value: true, message: "Date is required" } })} helperText={errors.date ? errors.date.message : ""} error={!!errors.date} disabled />
               </Grid>
-              <Grid size={{ sm: 12, md: 3 }}></Grid>
-              <Grid size={{ sm: 12, md: 6 }}>
+              <Grid size={{ md: 6 }} sx={{ display: { xs: "none", sm: "none", md: "block" } }}></Grid>
+              <Grid size={{ xs: 12, sm: 6, md: 6 }}>
                 <TextField fullWidth label="Customer Name" variant="outlined" {...register("customer_name", { required: { value: true, message: "Customer Name is required" } })} helperText={errors.customer_name ? errors.customer_name.message : ""} error={!!errors.customer_name} />
               </Grid>
 
               {/* Product Append */}
-              <Grid size={{ sm: 12, md: 12 }}>
-                <EditBillRows products={products} setGrandTotal={setGrandTotal} control={control} register={register} handleChange={handleChange} watch={watch} errors={errors} />
+              <Grid item sx={{ gridColumn: "span 12" }}>
+                <Box sx={{ overflowX: "auto" }}>
+                  <EditBillRows products={products} setGrandTotal={setGrandTotal} control={control} register={register} handleChange={handleChange} watch={watch} errors={errors} />
+                </Box>
               </Grid>
 
-              <Grid size={{ sm: 12, md: 9 }}></Grid>
+              <Grid size={{ xs: 12, sm: 7, md: 9 }}></Grid>
 
-              <Grid size={{ sm: 12, md: 3 }}>
+              <Grid size={{ xs: 12, sm: 5, md: 3 }}>
                 <TextField fullWidth label="Discount/Surcharge" type="number" variant="outlined" {...register("tax", { valueAsNumber: true })} />
               </Grid>
 
-              <Grid size={{ sm: 12, md: 9 }}></Grid>
+              <Grid size={{ xs: 12, sm: 7, md: 9 }} sx={{ display: { xs: "none", sm: "block" } }}></Grid>
 
-              <Grid size={{ sm: 12, md: 3 }}>
+              <Grid size={{ xs: 12, sm: 5, md: 3 }}>
                 <Typography variant="h6" gutterBottom>{`Total : ${grandTotal}`}</Typography>
               </Grid>
-              <Grid size={{ sm: 12, md: 6 }}>
+              <Grid sx={{
+                  gridColumn: { xs: "12", md: "6" },
+                  display: "flex",
+                  flexDirection: { xs: "column", sm: "row" },
+                  alignItems: "center",
+                  gap: 1,
+                }}>
                 <Button variant="contained" type="submit">
                   Save
                 </Button>
                 <Link to="/bill">
-                  <Button variant="contained" sx={{ m: 2, backgroundColor: "black" }}>
+                  <Button variant="contained" sx={{ backgroundColor: "black" }}>
                     Back
                   </Button>
                 </Link>

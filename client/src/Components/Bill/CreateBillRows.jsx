@@ -41,7 +41,7 @@ const CreateBillRows = ({ products, setGrandTotal, control, register, handleChan
             const total = quantity * price;
             return (
               <TableRow key={row.id}>
-                <TableCell>
+                <TableCell sx={{ minWidth: { xs: 100, sm: 150, md: 200 }}}>
                   <FormControl sx={{ minWidth: 200 }} size="small">
                     <Select inputProps={{ "aria-label": "Without label" }} {...register(`items.${index}.product_id`, { required: { value: true, message: "Please Select Product" } })} error={!!errors?.items?.[index]?.product_id} value={row.product_id} displayEmpty onChange={(e) => handleChange(index, "product_id", e.target.value)} >
                       <MenuItem value="">Select</MenuItem>
@@ -55,22 +55,16 @@ const CreateBillRows = ({ products, setGrandTotal, control, register, handleChan
                 </TableCell>
 
                 {/* Quantity Input */}
-                <TableCell>
+                <TableCell sx={{ minWidth: { xs: 100, sm: 150, md: 200 }}}>
                   <TextField type="number" variant="outlined" size="small" {...register(`items.${index}.qty`, { required: { value: true }, valueAsNumber: true, min: { value: 1, message: "Must be at least 1" }, max: { value: 60, message: "Cannot be more than 100" }, })} error={!!errors?.items?.[index]?.qty} />
                 </TableCell>
 
-                <TableCell>
-                  <TextField
-                    type="number"
-                    variant="outlined"
-                    size="small"
-                    {...register(`items.${index}.price`, { required: { value: true }, valueAsNumber: true, min: { value: 1, message: "Must be at least 1" } })}
-                    error={!!errors?.items?.[index]?.price}
-                  />
+                <TableCell sx={{ minWidth: { xs: 100, sm: 150, md: 200 }}}>
+                  <TextField type="number" variant="outlined" size="small" {...register(`items.${index}.price`, { required: { value: true }, valueAsNumber: true, min: { value: 1, message: "Must be at least 1" } })} error={!!errors?.items?.[index]?.price} />
                 </TableCell>
 
                 {/* Total */}
-                <TableCell>{total}</TableCell>
+                <TableCell sx={{ minWidth: { xs: 100, sm: 150, md: 200 }}}>{total}</TableCell>
 
                 {/* Remove Button */}
                 <TableCell>

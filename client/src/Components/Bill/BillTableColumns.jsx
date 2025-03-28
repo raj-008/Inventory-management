@@ -7,6 +7,7 @@ import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import { Link } from "react-router-dom";
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import CalculateTotalQuantity from "../../Utils/CalculateTotalQuantity.utils"
+import { Box } from "@mui/material";
 
 const billTableColumns = (navigate, handleClose, handleOpen, handleDelete) => [
   {
@@ -42,7 +43,7 @@ const billTableColumns = (navigate, handleClose, handleOpen, handleDelete) => [
   {
     name: "Action",
     cell: (row) => (
-      <div>
+      <Box  sx={{ display: "flex", alignItems: "center", flexWrap: "nowrap" }}>
         <IconButton
           variant="contained"
           value={row._id}
@@ -59,7 +60,7 @@ const billTableColumns = (navigate, handleClose, handleOpen, handleDelete) => [
         <IconButton variant="contained" value={row.id} onClick={() => handleOpen(row._id)}>
           <PictureAsPdfIcon style={{ color: "#00b300" }} />
         </IconButton>
-      </div>
+        </Box>
     ),
     center: "true",
   },

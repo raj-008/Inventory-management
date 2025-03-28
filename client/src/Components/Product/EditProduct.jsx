@@ -178,12 +178,12 @@ function EditProduct() {
               </Grid>
               <Grid size={{ sm: 12, md: 6 }}></Grid>
 
-              <Grid size={{ xs: 6 }}>
-                <Button variant="contained" type="submit">
+              <Grid size={{ xs : 12}}>
+                <Button variant="contained" type="submit" sx={{ml : {xs : 1}}}>
                   Save
                 </Button>
                 <Link to="/product">
-                  <Button variant="contained" sx={{ m: 2, backgroundColor: "black" }}>
+                  <Button variant="contained" sx={{ m : 1, backgroundColor: "black" }}>
                     Back
                   </Button>
                 </Link>

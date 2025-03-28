@@ -9,6 +9,8 @@ import UploadFileIcon from "@mui/icons-material/UploadFile";
 import Tooltip from "@mui/material/Tooltip";
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
+import { Box } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 
 const productTableColumns = (navigate, handleDelete, handleExcelImport) => [
   {
@@ -61,7 +63,7 @@ const productTableColumns = (navigate, handleDelete, handleExcelImport) => [
   {
     name: "Action",
     cell: (row) => (
-      <div>
+      <Grid sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 1}}>
         <IconButton
           variant="contained"
           value={row._id}
@@ -81,7 +83,7 @@ const productTableColumns = (navigate, handleDelete, handleExcelImport) => [
         >
           <DeleteIcon style={{ color: "#ff8080" }} />
         </IconButton>
-      </div>
+      </Grid>
     ),
     center: "true",
   },
@@ -104,8 +106,9 @@ const VisuallyHiddenInput = styled('input')({
 export const ActionButton = ({ handleExcelImport }) => {
   return (
     <>
+    <Box  sx={{ display: "flex", alignItems: "center", flexWrap: "nowrap" }}>
       <Link to="/product/create">
-        <IconButton variant="text" style={{ padding: "12px 12px" }}>
+        <IconButton variant="text">
           <LibraryAddIcon style={{ fontSize: "32px", color: "#737373" }} />
         </IconButton>
       </Link>
@@ -115,6 +118,7 @@ export const ActionButton = ({ handleExcelImport }) => {
             <VisuallyHiddenInput type="file" accept=".xls, .xlsx"  onChange={(event) => { handleExcelImport(event.target.files[0], event)}} />
           </Button>
         </Tooltip>
+        </Box>
     </>
   );
 };

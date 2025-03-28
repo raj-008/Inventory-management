@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { errorToaster, successToaster } from "../../Utils/Toasters.utils";
 import axios from "axios";
 import { useAuth } from "../../Context/AuthContext";
+import "../Product/product.css";
 
 const Product = () => {
   const navigate = useNavigate();
