@@ -105,7 +105,13 @@ function EditBill() {
 
   if (billLoading) {
     return (
-        <Box elevation={0} style={{ padding: "32px", textAlign: "center" }}>
+        <Box elevation={0} style={{
+          height: '100vh', // makes the Box fill the full viewport height
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'column' // optional, in case you add more content later
+        }}>
           <CircularProgress size="3rem" />
         </Box>
     );

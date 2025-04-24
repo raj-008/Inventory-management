@@ -22,7 +22,7 @@ import { useEffect } from "react";
 import "./layout.css";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Link } from "react-router-dom";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import GrainRoundedIcon from "@mui/icons-material/GrainRounded";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
@@ -96,7 +96,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== "open" 
 
 export default function Layout({ children }) {
   const location = useLocation();
-  const navigate = useNavigate();
 
   const { logOut, user } = useAuth();
 
@@ -260,7 +259,7 @@ export default function Layout({ children }) {
                   </ListItem>
                 </Link>
                 <Link to="/profile" className="sidebar-link">
-                  <ListItem key="Profile" disablePadding sx={{ display: "block" }} className={location.pathname === "/settings" ? "active-nav" : ""}>
+                  <ListItem key="Profile" disablePadding sx={{ display: "block" }} className={location.pathname === "/profile" ? "active-nav" : ""}>
                     <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
                       <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
                         <PersonIcon />
@@ -306,16 +305,16 @@ export default function Layout({ children }) {
               </>
             ) : null}
 
-            <Link to="/" onClick={logOut} className="sidebar-link">
-              <ListItem key="Setting" disablePadding sx={{ display: "block" }} className={location.pathname === "/logout" ? "active-nav" : ""}>
-                <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }}>
+            {/* <Link to="/" onClick={logOut} className="sidebar-link"> */}
+              <ListItem key="Logout" disablePadding sx={{ display: "block" }} className={location.pathname === "/logout" ? "active-nav" : ""}>
+                <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }} onClick={logOut}>
                   <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
                     <LogoutIcon />
                   </ListItemIcon>
                   <ListItemText primary="Logout" sx={{ opacity: open ? 1 : 0 }} />
                 </ListItemButton>
               </ListItem>
-            </Link>
+            {/* </Link> */}
           </List>
         </Drawer>
         <Box component="main" className="main-content" sx={{ flexGrow: 1, py: 2, px: 2, overflow: "hidden" }}>
