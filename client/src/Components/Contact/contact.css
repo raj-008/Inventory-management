@@ -29,6 +29,14 @@
   margin-bottom: 18px;
 }
 
+.css-er619e-MuiFormHelperText-root {
+  margin-left: 0px !important;
+}
+
+textarea:focus {
+  border-bottom: 0px !important;
+}
+
 .form-container .inquiry-submit {
   padding: 8px 28px;
   font-size: medium;

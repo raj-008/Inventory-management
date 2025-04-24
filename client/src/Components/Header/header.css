@@ -6,6 +6,7 @@
 
 #home{
   background-color: white !important;
+  min-width: 100vh;
 }
 
 .app-bar {
