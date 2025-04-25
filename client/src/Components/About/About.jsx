@@ -22,7 +22,7 @@ const About = ({ aboutRef }) => {
 
           <div className="about-img-container">
             <img
-              src="about_us.jpg"
+              src="about_us.png"
               alt="about_us"
               className="about-img"
             />
