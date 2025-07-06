@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
+const { connectMongoDB } = require("./connection.js");
 
 process.on("uncaughtException", (err) => {
   console.log(err.name, err.message);
@@ -9,14 +10,10 @@ process.on("uncaughtException", (err) => {
 
 const app = require("./app");
 
-mongoose.promise = global.Promise;
-mongoose.connect(process.env.URI).then(() => {
-  console.log("Database connection established");
-});
+connectMongoDB(process.env.URI)
+.then(() => console.log("Database Connected"));
 
-const PORT = process.env.PORT || 8000;
-
-app.listen(PORT, () => {
+app.listen(process.env.PORT, () => {
   console.log("APP is Running");
 });
 
