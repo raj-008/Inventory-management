@@ -38,17 +38,17 @@ const Contact = () => {
             <div className="contact-conent">
               <div className="contact-item phone">
                 <LocalPhoneIcon className="contact-icon" />
-                +91 7894561230
+                020 7482 1932
               </div>
 
               <div className="contact-item location">
                 <LocationOnIcon className="contact-icon" />
-                A-1 Brick Lane, London
+                369 Brick Lane, London
               </div>
 
               <div className="contact-item mail">
                 <MailIcon className="contact-icon" />
-                rajshingala07@gmail.com
+                johnmarch@gmail.com
               </div>
             </div>
           </div>
