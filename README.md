@@ -1,5 +1,3 @@
-# Inventory Management System
-
 <div align="center">
   <h3>Inventory Management System</h3>
   <p>
