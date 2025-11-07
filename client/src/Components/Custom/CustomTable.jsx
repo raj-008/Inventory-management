@@ -19,7 +19,7 @@ const customStyles = {
   },
 };
 
-const Brand = ({ tableData, tableColumns, actionButton, fixedHeader = true, defultSortingColumn = 1, defaultSortAsc = false }) => {
+const CustomTable = ({ tableData, tableColumns, actionButton, fixedHeader = true, defultSortingColumn = 1, defaultSortAsc = false }) => {
   const [search, setSearcch] = useState("");
 
   const handleSearch = (e) => {
@@ -52,11 +52,20 @@ const Brand = ({ tableData, tableColumns, actionButton, fixedHeader = true, defu
             </Box>
             <Box style={{ marginBottom: "0px", marginTop: "12px", marginRight: "36px" }}>{actionButton}</Box>
           </Box>
-          <DataTable columns={tableColumns} data={filteredData} customStyles={customStyles} defaultSortFieldId={defultSortingColumn} fixedHeader={fixedHeader} fixedHeaderScrollHeight="65vh" defaultSortAsc={defaultSortAsc} pagination />
+          <DataTable
+            columns={tableColumns}
+            data={filteredData}
+            customStyles={customStyles}
+            defaultSortFieldId={defultSortingColumn}
+            fixedHeader={fixedHeader}
+            fixedHeaderScrollHeight="65vh"
+            defaultSortAsc={defaultSortAsc}
+            pagination
+          />
         </div>
       </Paper>
     </>
   );
 };
 
-export default Brand;
+export default CustomTable;

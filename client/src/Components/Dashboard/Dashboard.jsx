@@ -25,8 +25,9 @@ const Dashboard = () => {
   let pieChartData = [];
   if (dashboardData.productsData) {
     totalBillCount = dashboardData.productsData.totalBillCount;
-    totalSale = dashboardData.productsData.totalSale;
+    totalSale = dashboardData.productsData.totalSale;    
     monthlySaleData = dashboardData.productsData.monthlySale;
+    monthlySaleData.sort((a, b) => Number(a.monthYear) - Number(b.monthYear));
     dashboardData.categorySales.forEach((el) => {
       pieChartLabels.push(el.category_name);
       pieChartData.push(el.category_wise_total_sale);
@@ -61,6 +62,7 @@ const Dashboard = () => {
       }
 
       if (!monthlySaleData) monthlySaleData = [];
+
 
       lineChartRef.current = new Chart(lineCtx, {
         type: "line",
