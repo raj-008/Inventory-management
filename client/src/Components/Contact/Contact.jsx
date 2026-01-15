@@ -1,149 +1,343 @@
 import React, { useState } from "react";
-import "./contact.css";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import MailIcon from "@mui/icons-material/Mail";
-import { Element } from "react-scroll";
-import { errorToaster, successToaster } from "../../Utils/Toasters.utils";
+import { Phone, MapPin, Mail, Send, CheckCircle2 } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { successToaster } from "../../Utils/Toasters.utils";
 
 const Contact = () => {
-
-  const {register, handleSubmit, reset, formState: { errors }} = useForm();
-
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
   const [formKey, setFormKey] = useState(0);
 
   const onSubmit = async () => {
     try {
+      setTimeout(() => {
+        reset();
+        setFormKey((prev) => prev + 1);
+      }, 3000);
       successToaster("Your message has been recived, we'll get back to you soon");
-      reset();
-      setFormKey(prev => prev + 1);
-  
     } catch (error) {
-      errorToaster(error.response.data.message);
+      console.error(error);
     }
   };
 
+  const contactInfo = [
+    { icon: Phone, text: "020 7482 1932", label: "Phone" },
+    { icon: MapPin, text: "369 Brick Lane, London", label: "Location" },
+    { icon: Mail, text: "johnmarch@gmail.com", label: "Email" },
+  ];
+
   return (
-    <>
-      <Element name="contact">
-        <div className="contact">
-          <div className="contact-details">
-            <div className="contact-conent">
-              <div className="contact-item phone">
-                <LocalPhoneIcon className="contact-icon" />
-                020 7482 1932
-              </div>
+    <Box
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        px: 2,
+      }}
+    >
+      <Box sx={{ maxWidth: "1200px", margin: "0" }}>
+        {/* Header */}
 
-              <div className="contact-item location">
-                <LocationOnIcon className="contact-icon" />
-                369 Brick Lane, London
-              </div>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: { xs: "1fr", lg: "1fr 1fr" },
+            gap: 4,
+            alignItems: "center",
+          }}
+        >
+          {/* Contact Info Section */}
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+            {contactInfo.map((item, index) => {
+              const Icon = item.icon;
+              return (
+                <Card
+                  key={index}
+                  sx={{
+                    borderRadius: "16px",
+                    boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
+                    border: "1px solid #e2e8f0",
+                    transition: "all 0.3s ease",
+                  }}
+                >
+                  <CardContent sx={{ p: { xs: 2, md: 3 } }}>
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                      <Box
+                        sx={{
+                          width: 50,
+                          height: 50,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          bgcolor: "#d4dde9",
+                          borderRadius: "10px",
+                          flexShrink: 0,
+                        }}
+                      >
+                        <Icon style={{ width: 24, height: 24, color: "#000000" }} />
+                      </Box>
+                      <Box>
+                        <Typography
+                          className="contact-label"
+                          sx={{
+                            fontSize: "0.875rem",
+                            fontWeight: 500,
+                            color: "#64748b",
+                            mb: 0.5,
+                            transition: "color 0.3s ease",
+                          }}
+                        >
+                          {item.label}
+                        </Typography>
+                        <Typography
+                          className="contact-text"
+                          sx={{
+                            color: "#0f172a",
+                            fontWeight: 500,
+                            fontSize: { xs: "0.875rem", md: "1rem" },
+                            wordBreak: "break-word",
+                            transition: "color 0.3s ease",
+                          }}
+                        >
+                          {item.text}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </Box>
 
-              <div className="contact-item mail">
-                <MailIcon className="contact-icon" />
-                johnmarch@gmail.com
-              </div>
-            </div>
-          </div>
+          {/* Form Section */}
+          <Card sx={{ borderRadius: "16px", boxShadow: "0 20px 25px -5px rgba(0,0,0,0.1)", border: "1px solid #e2e8f0" }}>
+            <CardContent sx={{ p: { xs: 3, md: 4 } }}>
+              <Typography sx={{ fontSize: "2.5rem", color: "#0f172a", mb: 4, textAlign: "center" }}>Contact Us</Typography>
 
-          <div className="contact-form">
-            <Box sx={{ minWidth: 275 }} style={{ maxWidth: "100%", maxHeight: "100%" }}>
-              <Card variant="outlined">
-                <CardContent>
-                  <Typography variant="h5" component="div" className="contact-title">
-                    <span> Contact</span>
+              <Box key={formKey} component="div" onSubmit={handleSubmit(onSubmit)}>
+                <Box sx={{ mb: 3 }}>
+                  <Typography sx={{ fontSize: "0.875rem", fontWeight: 600, color: "#475569", mb: 1 }}>
+                    Full Name <span style={{ color: "#ef4444" }}>*</span>
                   </Typography>
+                  <TextField
+                    fullWidth
+                    hiddenLabel
+                    placeholder="Harsh Patel"
+                    variant="filled"
+                    InputProps={{
+                      disableUnderline: true,
+                      sx: {
+                        borderRadius: "12px",
+                        bgcolor: "#f8fafc",
+                        border: "1px solid #e2e8f0",
+                        transition: "all 0.2s",
+                        "&:hover": {
+                          borderColor: "#cbd5e1",
+                        },
+                        "&.Mui-focused": {
+                          bgcolor: "#fff",
+                          borderColor: "#4f46e5",
+                          boxShadow: "0 0 0 3px rgba(79, 70, 229, 0.1)",
+                        },
+                      },
+                    }}
+                    {...register("name", {
+                      required: { value: true, message: "Name is required" },
+                      pattern: {
+                        value: /^[A-Za-z\s]+$/,
+                        message: "Only text are allowed",
+                      },
+                    })}
+                    helperText={errors.name ? errors.name.message : ""}
+                    error={!!errors.name}
+                  />
+                </Box>
 
-                  <div sx={{ my: 1.5 }} color="text.secondary" className="form-container">
-                    <form key={formKey} onSubmit={handleSubmit(onSubmit)}>
-                      <TextField className="contact-input" name="name" style={{ width: "100%" }} label="Name" variant="filled"
-                        slotProps={{
-                          input: {
-                            disableUnderline: true,
+                {/* Email and Phone Row */}
+                <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" }, gap: 3, mb: 3 }}>
+                  <Box>
+                    <Typography
+                      sx={{
+                        fontSize: "0.875rem",
+                        fontWeight: 600,
+                        color: "#475569",
+                        mb: 1,
+                      }}
+                    >
+                      Email Address <span style={{ color: "#ef4444" }}>*</span>
+                    </Typography>
+                    <TextField
+                      fullWidth
+                      hiddenLabel
+                      placeholder="harsh@example.com"
+                      variant="filled"
+                      InputProps={{
+                        disableUnderline: true,
+                        sx: {
+                          borderRadius: "12px",
+                          bgcolor: "#f8fafc",
+                          border: "1px solid #e2e8f0",
+                          transition: "all 0.2s",
+                          "&:hover": {
+                            borderColor: "#cbd5e1",
                           },
-                        }}
-                        {...register("name", {
-                          required: { value: true, message: "Name is required" },
-                          pattern: {
-                            value: /^[A-Za-z\s]+$/,
-                            message: "Only text are allowed",
+                          "&.Mui-focused": {
+                            bgcolor: "#fff",
+                            borderColor: "#4f46e5",
+                            boxShadow: "0 0 0 3px rgba(79, 70, 229, 0.1)",
                           },
-                        })}
-                        helperText={errors.name ? errors.name.message : ""}
-                        error={!!errors.name}
-                      />
+                        },
+                      }}
+                      {...register("email", {
+                        required: { value: true, message: "Email is required" },
+                        pattern: {
+                          value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                          message: "Enter a valid email address",
+                        },
+                      })}
+                      helperText={errors.email ? errors.email.message : ""}
+                      error={!!errors.email}
+                    />
+                  </Box>
 
-                      <TextField className="contact-input contact-email" name="email" style={{ width: "100%" }} label="Email" variant="filled"
-                        slotProps={{
-                          input: {
-                            disableUnderline: true,
+                  <Box>
+                    <Typography
+                      sx={{
+                        fontSize: "0.875rem",
+                        fontWeight: 600,
+                        color: "#475569",
+                        mb: 1,
+                      }}
+                    >
+                      Phone Number
+                    </Typography>
+                    <TextField
+                      fullWidth
+                      hiddenLabel
+                      placeholder="+91 98765 43210"
+                      variant="filled"
+                      InputProps={{
+                        disableUnderline: true,
+                        sx: {
+                          borderRadius: "12px",
+                          bgcolor: "#f8fafc",
+                          border: "1px solid #e2e8f0",
+                          transition: "all 0.2s",
+                          "&:hover": {
+                            borderColor: "#cbd5e1",
                           },
-                        }}
-                        {...register("email", {
-                          required: { value: true, message: "Email is required" },
-                          pattern: {
-                            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                            message: "Enter a valid email address",
+                          "&.Mui-focused": {
+                            bgcolor: "#fff",
+                            borderColor: "#4f46e5",
+                            boxShadow: "0 0 0 3px rgba(79, 70, 229, 0.1)",
                           },
-                        })}
-                        helperText={errors.email ? errors.email.message : ""}
-                        error={!!errors.email}
-                      />
+                        },
+                      }}
+                      {...register("phone", {
+                        pattern: {
+                          value: /^(?:\+91|91|0)?[6-9]\d{9}$/,
+                          message: "Enter a valid Indian phone number",
+                        },
+                      })}
+                      helperText={errors.phone ? errors.phone.message : ""}
+                      error={!!errors.phone}
+                    />
+                  </Box>
+                </Box>
 
-                      <TextField className="contact-input contact-phone" name="phone" style={{ width: "100%" }} label="Phone" variant="filled"
-                        slotProps={{
-                          input: {
-                            disableUnderline: true,
-                          },
-                        }}
-                        {...register("phone", {
-                          pattern: {
-                            value: /^(?:\+91|91|0)?[6-9]\d{9}$/,
-                            message: "Enter a valid Indian phone number",
-                          },
-                        })}
-                        helperText={errors.phone ? errors.phone.message : ""}
-                        error={!!errors.phone}
-                      />
+                {/* Message Field */}
+                <Box sx={{ mb: 3 }}>
+                  <Typography
+                    sx={{
+                      fontSize: "0.875rem",
+                      fontWeight: 600,
+                      color: "#475569",
+                      mb: 1,
+                    }}
+                  >
+                    Your Message <span style={{ color: "#ef4444" }}>*</span>
+                  </Typography>
+                  <TextField
+                    fullWidth
+                    hiddenLabel
+                    multiline
+                    rows={6}
+                    placeholder="Tell us about your project..."
+                    variant="filled"
+                    InputProps={{
+                      disableUnderline: true,
+                      sx: {
+                        borderRadius: "12px",
+                        bgcolor: "#f8fafc",
+                        border: "1px solid #e2e8f0",
+                        transition: "all 0.2s",
+                        "&:hover": {
+                          borderColor: "#cbd5e1",
+                        },
+                        "&.Mui-focused": {
+                          bgcolor: "#fff",
+                          borderColor: "#4f46e5",
+                          boxShadow: "0 0 0 3px rgba(79, 70, 229, 0.1)",
+                        },
+                      },
+                    }}
+                    {...register("message", {
+                      required: { value: true, message: "Message is required" },
+                      pattern: {
+                        value: /^[A-Za-z0-9\s]+$/,
+                        message: "Only letters, numbers, and spaces are allowed",
+                      },
+                    })}
+                    helperText={errors.message ? errors.message.message : ""}
+                    error={!!errors.message}
+                  />
+                </Box>
 
-                      <TextField id="filled-multiline-static" label="Your Message" multiline style={{ width: "100%" }} rows={8} name="message" variant="filled" className="contact-input input-inquiry"
-                        slotProps={{
-                          input: {
-                            disableUnderline: true,
-                          },
-                        }}
-                        {...register("message", {
-                          required: { value: true, message: "Message is required" },
-                          pattern: {
-                            value: /^[A-Za-z0-9\s]+$/,
-                            message: "Only letters, numbers, and spaces are allowed",
-                          },
-                        })}
-                        helperText={errors.message ? errors.message.message : ""}
-                        error={!!errors.message}
-                      />
-
-                      <div className="button-wrapper">
-                        <Button variant="contained" className="inquiry-submit" type="submit">
-                          Send
-                        </Button>
-                      </div>
-                    </form>
-                  </div>
-                </CardContent>
-              </Card>
-            </Box>
-          </div>
-        </div>
-      </Element>
-    </>
+                {/* Submit Button */}
+                <Button
+                  fullWidth
+                  variant="contained"
+                  onClick={handleSubmit(onSubmit)}
+                  sx={{
+                    py: 2,
+                    px: 4,
+                    borderRadius: "12px",
+                    background: "#000",
+                    fontSize: "1rem",
+                    fontWeight: 600,
+                    textTransform: "none",
+                    boxShadow: "none",
+                    transition: "all 0.3s",
+                    "&:hover": {
+                      background: "#1f2937",
+                      boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.3)",
+                      transform: "translateY(-2px)",
+                    },
+                    "&:active": {
+                      transform: "translateY(0)",
+                    },
+                  }}
+                  endIcon={<Send size={20} />}
+                >
+                  Send Message
+                </Button>
+              </Box>
+            </CardContent>
+          </Card>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
