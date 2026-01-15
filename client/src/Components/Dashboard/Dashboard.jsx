@@ -26,7 +26,7 @@ const Dashboard = () => {
   if (dashboardData.productsData) {
     totalBillCount = dashboardData.productsData.totalBillCount;
     totalSale = dashboardData.productsData.totalSale;    
-    monthlySaleData = dashboardData.productsData.monthlySale;
+    monthlySaleData = dashboardData.productsData.monthlySale || [];
     monthlySaleData.sort((a, b) => Number(a.monthYear) - Number(b.monthYear));
     dashboardData.categorySales.forEach((el) => {
       pieChartLabels.push(el.category_name);
