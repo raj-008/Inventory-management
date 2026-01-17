@@ -13,7 +13,7 @@ const app = require("./app");
 connectMongoDB(process.env.URI)
 .then(() => console.log("Database Connected"));
 
-app.listen(process.env.PORT, () => {
+const server = app.listen(process.env.PORT, () => {
   console.log("APP is Running");
 });
 

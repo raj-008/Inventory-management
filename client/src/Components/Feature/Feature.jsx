@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import { Element } from "react-scroll";
-import HelpIcon from "@mui/icons-material/Help";
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import ImportExportIcon from "@mui/icons-material/ImportExport";
-import ReceiptIcon from "@mui/icons-material/Receipt";
-import BrandingWatermarkIcon from "@mui/icons-material/BrandingWatermark";
-import DashboardCustomizeIcon from "@mui/icons-material/DashboardCustomize";
+import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined';
+import DashboardCustomizeOutlinedIcon from '@mui/icons-material/DashboardCustomizeOutlined';
 import InsightsIcon from "@mui/icons-material/Insights";
+import PaymentOutlinedIcon from '@mui/icons-material/PaymentOutlined';
 
 const Feature = () => {
   const [isHovered, setIsHovered] = useState(true);
 
   const features = [
     {
-      icon: <HelpIcon sx={{ fontSize: 48 }} />,
+      icon: <HelpOutlineIcon sx={{ fontSize: 48 }} />,
       title: "24*7 Support",
       description: "Round-the-clock assistance to help you with any queries or issues. Our dedicated support team is always ready to help.",
       color: "#035789",
@@ -26,21 +26,21 @@ const Feature = () => {
       hoverColor: "#000000",
     },
     {
-      icon: <ReceiptIcon sx={{ fontSize: 48 }} />,
+      icon: <ReceiptOutlinedIcon sx={{ fontSize: 48 }} />,
       title: "Create Bills",
       description: "Generate professional invoices and bills in seconds. Customizable templates for all your business needs.",
       color: "#0081ce",
       hoverColor: "#000000",
     },
     {
-      icon: <BrandingWatermarkIcon sx={{ fontSize: 48 }} />,
+      icon: <PaymentOutlinedIcon sx={{ fontSize: 48 }} />,
       title: "Easy Payments",
       description: "Seamless payment processing with multiple payment options. Fast, secure, and hassle-free transactions.",
       color: "#0081ce",
       hoverColor: "#000000",
     },
     {
-      icon: <DashboardCustomizeIcon sx={{ fontSize: 48 }} />,
+      icon: <DashboardCustomizeOutlinedIcon sx={{ fontSize: 48 }} />,
       title: "Product Listings",
       description: "Manage and showcase your products efficiently. Complete inventory control at your fingertips.",
       color: "#0081ce",

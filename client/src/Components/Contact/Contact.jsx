@@ -5,7 +5,10 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import { Phone, MapPin, Mail, Send, CheckCircle2 } from "lucide-react";
+import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
+import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import { useForm } from "react-hook-form";
 import { successToaster } from "../../Utils/Toasters.utils";
 
@@ -31,9 +34,9 @@ const Contact = () => {
   };
 
   const contactInfo = [
-    { icon: Phone, text: "020 7482 1932", label: "Phone" },
-    { icon: MapPin, text: "369 Brick Lane, London", label: "Location" },
-    { icon: Mail, text: "johnmarch@gmail.com", label: "Email" },
+    { icon: LocalPhoneOutlinedIcon, text: "020 7482 1932", label: "Phone" },
+    { icon: LocationOnOutlinedIcon, text: "369 Brick Lane, London", label: "Location" },
+    { icon: EmailOutlinedIcon, text: "johnmarch@gmail.com", label: "Email" },
   ];
 
   return (
@@ -85,7 +88,7 @@ const Contact = () => {
                           flexShrink: 0,
                         }}
                       >
-                        <Icon style={{ width: 24, height: 24, color: "#000000" }} />
+                        <Icon style={{ width: 28, height: 28, color: "#000000" }} />
                       </Box>
                       <Box>
                         <Typography
@@ -328,7 +331,7 @@ const Contact = () => {
                       transform: "translateY(0)",
                     },
                   }}
-                  endIcon={<Send size={20} />}
+                  endIcon={<SendOutlinedIcon size={25} sx={{ transform: "rotate(-45deg)", mb : 0.4}} />}
                 >
                   Send Message
                 </Button>
